@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Sekolah
+      <i class="fa fa-table" aria-hidden="true"></i> {{ title }}
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -75,6 +75,7 @@
 </style>
 
 <script>
+import swal from 'sweetalert2';
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo';
 
 export default {
@@ -84,6 +85,7 @@ export default {
   data() {
     return {
       loading: true,
+      title: 'Sekolah',
       fields: [
         {
           name: '__sequence',
@@ -98,15 +100,9 @@ export default {
           titleClass: 'center aligned'
         },
         {
-          name: 'jenis_sekolah.jenis_sekolah',
-          title: 'Jenis Sekolah',
-          sortField: 'jenis_sekolah_id',
-          titleClass: 'center aligned'
-        },
-        {
-          name: 'label',
+          name: 'nama',
           title: 'Nama Sekolah',
-          sortField: 'label',
+          sortField: 'nama',
           titleClass: 'center aligned'
         },
         {
@@ -116,9 +112,9 @@ export default {
           titleClass: 'center aligned'
         },
         {
-          name: 'user.name',
-          title: 'Username',
-          sortField: 'user_id',
+          name: 'master_zona.label',
+          title: 'Zona',
+          sortField: 'kode_zona',
           titleClass: 'center aligned'
         },
         {
@@ -127,10 +123,9 @@ export default {
           titleClass: 'center aligned',
           dataClass: 'center aligned'
         },
-
       ],
       sortOrder: [{
-        field: 'label',
+        field: 'nama',
         direction: 'asc'
       }],
       moreParams: {},
@@ -161,27 +156,62 @@ export default {
       window.location = '#/admin/sekolah/create';
     },
     viewRow(rowData) {
-      window.location = '#/admin/sekolah/' + rowData.id;
+      window.location = '#/admin/sekolah/'+rowData.id;
     },
     editRow(rowData) {
-      window.location = '#/admin/sekolah/' + rowData.id + '/edit';
+      window.location = '#/admin/sekolah/'+rowData.id+'/edit';
     },
     deleteRow(rowData) {
       let app = this;
 
-      if (confirm('Do you really want to delete it?')) {
-        axios.delete('/api/sekolah/' + rowData.id)
-          .then(function(response) {
-            if (response.data.status == true) {
-              app.$refs.vuetable.reload()
-            } else {
-              alert('Failed');
-            }
-          })
-          .catch(function(response) {
-            alert('Break');
-          });
-      }
+      swal({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value) {
+          axios.delete('/api/sekolah/'+rowData.id)
+            .then(function(response) {
+              if (response.data.status == true) {
+                app.$refs.vuetable.reload();
+
+                swal(
+                  'Deleted',
+                  'Yeah!!! Your data has been deleted.',
+                  'success'
+                );
+              } else {
+                swal(
+                  'Failed',
+                  'Oops... Failed to delete data.',
+                  'error'
+                );
+              }
+            })
+            .catch(function(response) {
+              swal(
+                'Not Found',
+                'Oops... Your page is not found.',
+                'error'
+              );
+            });
+        } else if (result.dismiss === swal.DismissReason.cancel) {
+          swal(
+            'Cancelled',
+            'Your data is safe.',
+            'error'
+          );
+        }
+      });
     },
     onPaginationData(paginationData) {
       this.$refs.pagination.setPaginationData(paginationData);

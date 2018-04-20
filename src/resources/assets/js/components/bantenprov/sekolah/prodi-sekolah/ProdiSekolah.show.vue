@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i>Prodi sekolah {{ model.keterangan }}
+      <i class="fa fa-table" aria-hidden="true"></i> {{ title }}
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -13,151 +13,106 @@
     </div>
 
     <div class="card-body">
-      <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
-        <div class="form-row">
-          <div class="col-md">
-            <b>Sekolah :</b> {{ model.sekolah}}
-          </div>
-        </div>
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <b>Program Keahlian :</b> {{ model.program_keahlian }}
-          </div>
-        </div>
+      <dl class="row">
+          <dt class="col-4">Nama Sekolah</dt>
+          <dd class="col-8">{{ model.sekolah.nama }}</dd>
 
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <b>Keterangan :</b> {{ model.keterangan }}
-          </div>
-        </div>
+          <dt class="col-4">Program Keahlian</dt>
+          <dd class="col-8">{{ model.program_keahlian.label }}</dd>
 
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <b>Kuota Siswa :</b> {{ model.kuota_siswa }}
-          </div>
-        </div>
+          <dt class="col-4">Kuota Siswa</dt>
+          <dd class="col-8">{{ model.kuota_siswa }}</dd>
 
-      </vue-form>
+          <dt class="col-4">Keterangan</dt>
+          <dd class="col-8">{{ model.keterangan }}</dd>
+      </dl>
     </div>
-     <div class="card-footer text-muted">
-        <div class="row">
-          <div class="col-md">
-            <b>Username :</b> {{ model.user.name }}
-          </div>
-          <div class="col-md">
-            <div class="col-md text-right">Dibuat : {{ model.created_at }}</div>
-            <div class="col-md text-right">Diperbaiki : {{ model.updated_at }}</div>
-          </div>
+
+    <div class="card-footer text-muted">
+      <div class="row">
+        <div class="col-md">
+          <b>Username :</b> {{ model.user.name }}
+        </div>
+        <div class="col-md">
+          <div class="col-md text-right">Dibuat : {{ model.created_at }}</div>
+          <div class="col-md text-right">Diperbarui : {{ model.updated_at }}</div>
         </div>
       </div>
+    </div>
   </div>
 </template>
 
 <script>
+import swal from 'sweetalert2';
+
 export default {
-  mounted() {
-    axios.get('api/prodi-sekolah/' + this.$route.params.id)
-      .then(response => {
-        if (response.data.status == true) {
-          this.model.sekolah          = response.data.sekolah.sekolah.label;
-          this.model.program_keahlian = response.data.sekolah.program_keahlian.label;
-          this.model.user             = response.data.sekolah.user;
-          this.model.keterangan       = response.data.sekolah.keterangan;
-          this.model.kuota_siswa      = response.data.sekolah.kuota_siswa;
-          this.model.created_at       = response.data.sekolah.created_at;
-          this.model.updated_at       = response.data.sekolah.updated_at;
-
-        }
-        else {
-          alert('Failed');
-        }
-      })
-      .catch(function(response) {
-        alert('Break1');
-        window.location.href = '#/admin/prodi-sekolah';
-      }),
-      axios.get('api/prodi-sekolah/create')
-      .then(response => {
-          response.data.user.forEach(element => {
-            this.user.push(element);
-          });
-
-          response.data.sekolah.forEach(element => {
-            this.sekolah.push(element);
-          });
-
-          response.data.program_keahlian.forEach(element => {
-            this.program_keahlian.push(element);
-          });
-      })
-      .catch(function(response) {
-        alert('Break2');
-        window.location = '#/admin/prodi-sekolah';
-      })
-
-  },
   data() {
     return {
       state: {},
+      title: 'View Prodi Sekolah',
       model: {
-        sekolah_id:       "",
-        user_id:          "",
-        keterangan:       "",
-        kuota_siswa:      "",
-        program_keahlian: "",
-        created_at:       "",
-        updated_at:       "",
+        sekolah_id          : "",
+        program_keahlian_id : "",
+        kuota_siswa         : "",
+        keterangan          : "",
+        user_id             : "",
 
+        sekolah             : [],
+        program_keahlian    : [],
+        user                : [],
       },
-      user: [],
-      sekolah: [],
-      program_keahlian: [],
     }
   },
-  methods: {
-    onSubmit: function() {
-      let app = this;
+  mounted() {
+    let app = this;
 
-      if (this.state.$invalid) {
-        return;
-      } else {
-        axios.put('api/prodi-sekolah/' + this.$route.params.id, {
-            sekolah_id:   this.model.sekolah_id,
-            user_id:      this.model.user_id,
-            keterangan:   this.model.keterangan,
-            kuota_siswa:  this.model.kuota_siswa,
-          })
-          .then(response => {
-            if (response.data.status == true) {
-              if(response.data.message == 'success'){
-                alert(response.data.message);
-                app.back();
-              }else{
-                alert(response.data.message);
-              }
-            } else {
-              alert(response.data.message);
-            }
-          })
-          .catch(function(response) {
-            alert('Break ' + response.data.message);
-          });
-      }
-    },
-    reset() {
-      axios.get('api/prodi-sekolah/' + this.$route.params.id + '/edit')
-        .then(response => {
-          if (response.data.status == true) {
-            this.model.label = response.data.sekolah.label;
-            this.model.description = response.data.sekolah.description;
-          } else {
-            alert('Failed');
+    axios.get('api/prodi-sekolah/' + this.$route.params.id)
+      .then(response => {
+        if (response.data.status == true && response.data.error == false) {
+          this.model.sekolah_id           = response.data.prodi_sekolah.sekolah_id;
+          this.model.program_keahlian_id  = response.data.prodi_sekolah.program_keahlian_id;
+          this.model.kuota_siswa          = response.data.prodi_sekolah.kuota_siswa;
+          this.model.keterangan           = response.data.prodi_sekolah.keterangan;
+          this.model.user_id              = response.data.prodi_sekolah.user_id;
+          this.model.created_at           = response.data.prodi_sekolah.created_at;
+          this.model.updated_at           = response.data.prodi_sekolah.updated_at;
+
+          this.model.sekolah              = response.data.prodi_sekolah.sekolah;
+          this.model.program_keahlian     = response.data.prodi_sekolah.program_keahlian;
+          this.model.user                 = response.data.prodi_sekolah.user;
+
+          if (this.model.sekolah === null) {
+            this.model.sekolah = {"id": this.model.sekolah_id,"nama":""};
           }
-        })
-        .catch(function(response) {
-          alert('Break ');
-        });
-    },
+
+          if (this.model.program_keahlian === null) {
+            this.model.program_keahlian = {"id": this.model.program_keahlian_id,"label":""};
+          }
+
+          if (this.model.user === null) {
+            this.model.user = {"id": this.model.user_id,"name":""};
+          }
+        } else {
+          swal(
+            'Failed',
+            'Oops... '+response.data.message,
+            'error'
+          );
+
+          app.back();
+        }
+      })
+      .catch(function(response) {
+        swal(
+          'Not Found',
+          'Oops... Your page is not found.',
+          'error'
+        );
+
+        app.back();
+      });
+  },
+  methods: {
     back() {
       window.location = '#/admin/prodi-sekolah';
     }

@@ -104,7 +104,7 @@ export default {
     }
   },
   mounted: function () {
-    axios.get('/json/bantenprov/sekolah/sekolah-pie-020.json').then(response => {
+    axios.get('/json/bantenprov/sekolah/prodi-sekolah/prodi-sekolah-pie-020.json').then(response => {
 
       let ke = 0;
 

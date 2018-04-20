@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Add Prodi Sekolah
+      <i class="fa fa-table" aria-hidden="true"></i> {{ title }}
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -14,14 +14,15 @@
 
     <div class="card-body">
       <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
-        <div class="form-row">
+        <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <input class="form-control" v-model="model.Keterangan" required autofocus name="Keterangan" type="text" placeholder="Keterangan">
+              <label for="sekolah_id">Nama Sekolah</label>
+              <v-select name="sekolah_id" v-model="model.sekolah" :options="sekolah" placeholder="Nama Sekolah" required></v-select>
 
-              <field-messages name="Keterangan" show="$invalid && $submitted" class="text-danger">
+              <field-messages name="sekolah_id" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">User is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -30,7 +31,22 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <input class="form-control" v-model="model.kuota_siswa" required autofocus name="kuota_siswa" type="text" placeholder="Kuota Siswa">
+              <label for="program_keahlian_id">Program Keahlian</label>
+              <v-select name="program_keahlian_id" v-model="model.program_keahlian" :options="program_keahlian" placeholder="Program Keahlian" required></v-select>
+
+              <field-messages name="program_keahlian_id" show="$invalid && $submitted" class="text-danger">
+                <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">User is a required field</small>
+              </field-messages>
+            </validate>
+          </div>
+        </div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+              <label for="kuota_siswa">Kuota Siswa</label>
+              <input type="text" class="form-control" name="kuota_siswa" v-model="model.kuota_siswa" placeholder="Kuota Siswa" required>
 
               <field-messages name="kuota_siswa" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
@@ -43,28 +59,13 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-            <label for="program_keahlian_id">Program Keahlian</label>
-            <v-select name="program_keahlian_id" v-model="model.program_keahlian" :options="program_keahlian" class="mb-4"></v-select>
+              <label for="keterangan">Keterangan</label>
+              <input type="text" class="form-control" name="keterangan" v-model="model.keterangan" placeholder="Keterangan" required>
 
-            <field-messages name="program_keahlian_id" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Program Keahlian is a required field</small>
-            </field-messages>
-            </validate>
-          </div>
-        </div>
-
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <validate tag="div">
-            <label for="sekolah_id">Sekolah</label>
-            <v-select name="sekolah_id" v-model="model.sekolah" :options="sekolah" class="mb-4"></v-select>
-
-            <field-messages name="sekolah_id" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Label is a required field</small>
-            </field-messages>
+              <field-messages name="keterangan" show="$invalid && $submitted" class="text-danger">
+                <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">Label is a required field</small>
+              </field-messages>
             </validate>
           </div>
         </div>
@@ -72,13 +73,13 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-            <label for="user_id">Username</label>
-            <v-select name="user_id" v-model="model.user" :options="user" class="mb-4"></v-select>
+              <label for="user_id">Username</label>
+              <v-select name="user_id" v-model="model.user" :options="user" placeholder="Username" required></v-select>
 
-            <field-messages name="user_id" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Label is a required field</small>
-            </field-messages>
+              <field-messages name="user_id" show="$invalid && $submitted" class="text-danger">
+                <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">User is a required field</small>
+              </field-messages>
             </validate>
           </div>
         </div>
@@ -86,7 +87,6 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <button type="submit" class="btn btn-primary">Submit</button>
-
             <button type="reset" class="btn btn-secondary" @click="reset">Reset</button>
           </div>
         </div>
@@ -97,50 +97,88 @@
 </template>
 
 <script>
-export default {
-  mounted(){
-    axios.get('api/prodi-sekolah/create')
-    .then(response => {
-      if (response.data.status == true) {
-        this.model.user = response.data.current_user;
+import swal from 'sweetalert2';
 
-        response.data.sekolah.forEach(element =>{
-          this.sekolah.push(element);
-        });
-        response.data.program_keahlian.forEach(element =>{
-          this.program_keahlian.push(element);
-        });
-        if(response.data.user_special == true){
-          response.data.user.forEach(user_element => {
-            this.user.push(user_element);
-          });
-        }else{
-          this.user.push(response.data.user);
-        }
-      } else {
-        alert('Failed');
-      }
-    })
-    .catch(function(response) {
-      alert('Break');
-      window.location = '#/admin/prodi-sekolah';
-    });
-  },
+export default {
   data() {
     return {
       state: {},
+      title: 'Add Prodi Sekolah',
       model: {
-        Keterangan: "",
-        kuota_siswa: "",
-        sekolah: "",
-        user: "",
-        program_keahlian: "",
+        sekolah_id          : "",
+        program_keahlian_id : "",
+        kuota_siswa         : "",
+        keterangan          : "",
+        user_id             : "",
+        created_at          : "",
+        updated_at          : "",
 
+        sekolah             : "",
+        program_keahlian    : "",
+        user                : "",
       },
-      user: [],
-      sekolah: [],
-      program_keahlian: []
+      sekolah           : [],
+      program_keahlian  : [],
+      user              : [],
     }
+  },
+  mounted(){
+    let app = this;
+
+    axios.get('api/prodi-sekolah/create')
+      .then(response => {
+        if (response.data.status == true && response.data.error == false) {
+          this.program_keahlian = response.data.program_keahlians;
+          this.model.user       = response.data.current_user;
+
+          if(response.data.user_special == true){
+            this.user = response.data.users;
+          }else{
+            this.user.push(response.data.users);
+          }
+        } else {
+          swal(
+            'Failed',
+            'Oops... '+response.data.message,
+            'error'
+          );
+
+          app.back();
+        }
+      })
+      .catch(function(response) {
+        swal(
+          'Not Found',
+          'Oops... Your page is not found.',
+          'error'
+        );
+
+        app.back();
+      });
+
+    axios.get('api/sekolah/get')
+      .then(response => {
+        if (response.data.status == true && response.data.error == false) {
+          this.sekolah = response.data.sekolahs;
+        } else {
+          swal(
+            'Failed',
+            'Oops... '+response.data.message,
+            'error'
+          );
+
+          app.back();
+        }
+      })
+      .catch(function(response) {
+        swal(
+          'Not Found',
+          'Oops... Your page is not found.',
+          'error'
+        );
+
+        app.back();
+      });
   },
   methods: {
     onSubmit: function() {
@@ -150,36 +188,63 @@ export default {
         return;
       } else {
         axios.post('api/prodi-sekolah', {
-            keterangan:           this.model.Keterangan,
-            kuota_siswa:          this.model.kuota_siswa,
-            sekolah_id:           this.model.sekolah.id,
-            program_keahlian_id:  this.model.program_keahlian.id,
-            user_id:              this.model.user.id
+            sekolah_id            : this.model.sekolah.id,
+            program_keahlian_id   : this.model.program_keahlian.id,
+            kuota_siswa           : this.model.kuota_siswa,
+            keterangan            : this.model.keterangan,
+            user_id           : this.model.user.id,
           })
           .then(response => {
             if (response.data.status == true) {
-              if(response.data.message == 'success'){
-                alert(response.data.message);
+              if(response.data.error == false){
+                swal(
+                  'Created',
+                  'Yeah!!! Your data has been created.',
+                  'success'
+                );
+
                 app.back();
               }else{
-                alert(response.data.message);
+                swal(
+                  'Failed',
+                  'Oops... '+response.data.message,
+                  'error'
+                );
               }
             } else {
-              alert(response.data.message);
+              swal(
+                'Failed',
+                'Oops... '+response.data.message,
+                'error'
+              );
+
+              app.back();
             }
           })
           .catch(function(response) {
-            alert('Break ' + response.data.message);
+            swal(
+              'Not Found',
+              'Oops... Your page is not found.',
+              'error'
+            );
+
+            app.back();
           });
       }
     },
     reset() {
       this.model = {
-          Keterangan: "",
-          kuota_siswa: "",
-          program_keahlian: "",
-          sekolah: "",
-          user: ""
+        sekolah_id          : "",
+        program_keahlian_id : "",
+        kuota_siswa         : "",
+        keterangan          : "",
+        user_id             : "",
+        created_at          : "",
+        updated_at          : "",
+
+        sekolah             : "",
+        program_keahlian    : "",
+        user                : "",
       };
     },
     back() {

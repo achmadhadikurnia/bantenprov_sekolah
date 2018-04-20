@@ -161,10 +161,10 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <label for="zona_id">Zona</label>
-              <input class="form-control" v-model="model.zona_id" name="zona_id" type="text" placeholder="Zona">
+              <label for="kode_zona">Zona</label>
+              <input class="form-control" v-model="model.kode_zona" name="kode_zona" type="text" placeholder="Zona">
 
-              <field-messages name="zona_id" show="$invalid && $submitted" class="text-danger">
+              <field-messages name="kode_zona" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
               </field-messages>
             </validate>
@@ -200,13 +200,13 @@
         </div>
 
         <div class="form-row mt-4">
-          <div class="col-md">            
+          <div class="col-md">
             <button type="submit" class="btn btn-primary">Submit</button>
 
-            <button type="reset" class="btn btn-secondary" @click="reset">Reset</button>            
+            <button type="reset" class="btn btn-secondary" @click="reset">Reset</button>
           </div>
         </div>
-        
+
       </vue-form>
     </div>
   </div>
@@ -234,7 +234,7 @@ export default {
           this.model.village_id     = response.data.sekolah.village_id;
           this.model.no_telp        = response.data.sekolah.no_telp;
           this.model.email          = response.data.sekolah.email;
-          this.model.zona_id        = response.data.sekolah.zona_id;
+          this.model.kode_zona        = response.data.sekolah.kode_zona;
 
         } else {
           alert('Failed');
@@ -280,7 +280,7 @@ export default {
         village_id: "",
         no_telp: "",
         email: "",
-        zona_id: "",
+        kode_zona: "",
         old_user_id:    "",
         old_npsn:       "",
       },
@@ -311,7 +311,7 @@ export default {
             village_id:         this.model.village_id,
             no_telp:            this.model.no_telp,
             email:              this.model.email,
-            zona_id:            this.model.zona_id,
+            kode_zona:            this.model.kode_zona,
           })
           .then(response => {
             if (response.data.status == true) {
@@ -347,7 +347,7 @@ export default {
           this.model.village_id     = response.data.sekolah.village_id;
           this.model.no_telp        = response.data.sekolah.no_telp;
           this.model.email          = response.data.sekolah.email;
-          this.model.zona_id        = response.data.sekolah.zona_id;
+          this.model.kode_zona        = response.data.sekolah.kode_zona;
           } else {
             alert('Failed');
           }

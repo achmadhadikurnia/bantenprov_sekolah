@@ -17,10 +17,10 @@ class ProdiSekolah extends Model
     ];
     protected $fillable = [
         'sekolah_id',
-        'user_id',
         'program_keahlian_id',
-        'keterangan',
         'kuota_siswa',
+        'keterangan',
+        'user_id',
     ];
 
     /**
@@ -30,12 +30,7 @@ class ProdiSekolah extends Model
      */
     protected $hidden = [];
 
-        public function user()
-    {
-        return $this->belongsTo('App\User','user_id');
-    }
-
-      public function sekolah()
+    public function sekolah()
     {
         return $this->belongsTo('Bantenprov\Sekolah\Models\Bantenprov\Sekolah\Sekolah','sekolah_id');
     }
@@ -45,4 +40,8 @@ class ProdiSekolah extends Model
         return $this->belongsTo('Bantenprov\ProgramKeahlian\Models\Bantenprov\ProgramKeahlian\ProgramKeahlian','program_keahlian_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo('App\User','user_id');
+    }
 }
