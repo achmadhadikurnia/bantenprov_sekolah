@@ -82,15 +82,15 @@ export default {
           this.model.user                 = response.data.prodi_sekolah.user;
 
           if (this.model.sekolah === null) {
-            this.model.sekolah = {"id": this.model.sekolah_id,"nama":""};
+            this.model.sekolah = {"id":this.model.sekolah_id, "nama":""};
           }
 
           if (this.model.program_keahlian === null) {
-            this.model.program_keahlian = {"id": this.model.program_keahlian_id,"label":""};
+            this.model.program_keahlian = {"id":this.model.program_keahlian_id, "label":""};
           }
 
           if (this.model.user === null) {
-            this.model.user = {"id": this.model.user_id,"name":""};
+            this.model.user = {"id":this.model.user_id, "name":""};
           }
         } else {
           swal(

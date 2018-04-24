@@ -54,6 +54,7 @@ class BantenprovSekolahSeederSekolah extends Seeder
         foreach($this->readCSV() as $data){
 
             $this->model->create([
+            	'user_id' => $data['user_id'],
                 'nama' => $data['nama'],
                 'npsn' => $data['npsn'],
                 'jenis_sekolah_id' => $data['jenis_sekolah_id'],
@@ -67,7 +68,6 @@ class BantenprovSekolahSeederSekolah extends Seeder
                 'no_telp' => $data['no_telp'],
                 'email' => $data['email'],
                 'kode_zona' => $data['kode_zona'],
-            	'user_id' => $data['user_id'],
 
             ]);
 
@@ -130,20 +130,21 @@ class BantenprovSekolahSeederSekolah extends Seeder
         $all_data = array();
         $row = 1;
         while(($data = fgetcsv($file, 1000, ",")) !== FALSE){
-            $all_data[] = [ 'nama' => $data[0],
-                            'npsn' => $data[1],
-                            'jenis_sekolah_id' => $data[2],
-                            'alamat' => $data[3],
-                            'logo' => $data[4],
-                            'foto_gedung' => $data[5],
-                            'province_id' => $data[6],
-                            'city_id' => $data[7],
-                            'district_id' => $data[8],
-                            'village_id' => $data[9],
-                            'no_telp' => $data[10],
-                            'email' => $data[11],
-                            'kode_zona' => $data[12],
-                            'user_id' => $data[13],
+            $all_data[] = [ 
+                            'user_id' => $data[0],
+                            'nama' => $data[1],
+                            'npsn' => $data[2],
+                            'jenis_sekolah_id' => $data[3],
+                            'alamat' => $data[4],
+                            'logo' => $data[5],
+                            'foto_gedung' => $data[6],
+                            'province_id' => $data[7],
+                            'city_id' => $data[8],
+                            'district_id' => $data[9],
+                            'village_id' => $data[10],
+                            'no_telp' => $data[11],
+                            'email' => $data[13],
+                            'kode_zona' => $data[14],
                         ];
         }
         fclose($file);

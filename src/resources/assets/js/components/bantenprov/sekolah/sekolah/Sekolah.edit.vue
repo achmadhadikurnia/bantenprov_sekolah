@@ -17,10 +17,10 @@
         <div class="form-row">
           <div class="col-md">
             <validate tag="div">
-              <label for="label">Nama Sekolah</label>
-              <input class="form-control" v-model="model.label" required autofocus name="label" type="text" placeholder="Nama Sekolah">
+              <label for="nama">Nama Sekolah</label>
+              <input class="form-control" v-model="model.nama" required autofocus name="nama" type="text" placeholder="Nama Sekolah">
 
-              <field-messages name="label" show="$invalid && $submitted" class="text-danger">
+              <field-messages name="nama" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
                 <small class="form-text text-danger" slot="required">Label is a required field</small>
               </field-messages>
@@ -54,40 +54,41 @@
           </div>
         </div>
 
-        <div class="form-row mt-4">
+        <!-- <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
               <label for="logo">Logo</label>
               <input class="form-control" v-model="model.logo" name="logo" type="text" placeholder="Logo">
-
+        
               <field-messages name="logo" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
               </field-messages>
             </validate>
           </div>
         </div>
-
+        
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
               <label for="foto_gedung">Foto Gedung</label>
               <input class="form-control" v-model="model.foto_gedung" name="foto_gedung" type="text" placeholder="Foto Gedung">
-
+        
               <field-messages name="foto_gedung" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
               </field-messages>
             </validate>
           </div>
-        </div>
+        </div> -->
 
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
               <label for="province_id">Provinsi</label>
-              <input class="form-control" v-model="model.province_id" name="province_id" type="text" placeholder="Provinsi">
+              <v-select name="province_id" v-model="model.province" :options="province" @input="changeProvince" placeholder="Provinsi" required></v-select>
 
               <field-messages name="province_id" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">provinsi is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -96,11 +97,12 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <label for="city_id">Kota/Kabupaten</label>
-              <input class="form-control" v-model="model.city_id" name="city_id" type="text" placeholder="Kota/Kabupaten">
+              <label for="city_id">Kabupaten/Kota</label>
+              <v-select name="city_id" v-model="model.city" :options="city" @input="changeCity" placeholder="Kabupaten/Kota" required></v-select>
 
               <field-messages name="city_id" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">Kabupaten is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -110,10 +112,11 @@
           <div class="col-md">
             <validate tag="div">
               <label for="district_id">Kecamatan</label>
-              <input class="form-control" v-model="model.district_id" name="district_id" type="text" placeholder="Kecamatan">
+              <v-select name="district_id" v-model="model.district" :options="district" @input="changeDistrict" placeholder="Kecamatan" required></v-select>
 
-              <field-messages name="district_id" show="$invalid && $submitted" class="text-danger">
+                <field-messages name="district_id" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">Kota is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -122,11 +125,12 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <label for="village_id">Kelurahan</label>
-              <input class="form-control" v-model="model.village_id" name="village_id" type="text" placeholder="Kelurahan">
+              <label for="village_id">Kelurahan/Desa</label>
+              <v-select name="village_id" v-model="model.village" :options="village" placeholder="Kelurahan/Desa" required></v-select>
 
               <field-messages name="village_id" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">Desa is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -161,12 +165,13 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <label for="kode_zona">Zona</label>
-              <input class="form-control" v-model="model.kode_zona" name="kode_zona" type="text" placeholder="Zona">
+            <label for="kode_zona">Zona </label>
+            <v-select name="kode_zona" v-model="model.kode_zona" :options="master_zona" class="mb-4"></v-select>
 
-              <field-messages name="kode_zona" show="$invalid && $submitted" class="text-danger">
-                <small class="form-text text-success">Looks good!</small>
-              </field-messages>
+            <field-messages name="kode_zona" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">Zona is a required field</small>
+            </field-messages>
             </validate>
           </div>
         </div>
@@ -174,10 +179,10 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-            <label for="jenis_sekolah">Jenis Sekolah</label>
-            <v-select name="jenis_sekolah" v-model="model.jenis_sekolah" :options="jenis_sekolah" class="mb-4"></v-select>
+            <label for="jenis_sekolah_id">Jenis Sekolah</label>
+            <v-select name="jenis_sekolah_id" v-model="model.jenis_sekolah" :options="jenis_sekolah" class="mb-4"></v-select>
 
-            <field-messages name="jenis_sekolah" show="$invalid && $submitted" class="text-danger">
+            <field-messages name="jenis_sekolah_id" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
               <small class="form-text text-danger" slot="required">Jenis Sekolah is a required field</small>
             </field-messages>
@@ -213,28 +218,32 @@
 </template>
 
 <script>
+
+import swal from 'sweetalert2';
+
 export default {
   mounted() {
     axios.get('api/sekolah/' + this.$route.params.id + '/edit')
       .then(response => {
         if (response.data.status == true) {
 
-          this.model.label          = response.data.sekolah.label;
+          this.model.nama           = response.data.sekolah.nama;
           this.model.old_user_id    = response.data.sekolah.user_id;
-          this.model.user           = response.data.user;
-          this.model.jenis_sekolah  = response.data.jenis_sekolah;
+          this.model.user           = response.data.sekolah.user.name;
+          this.model.jenis_sekolah  = response.data.sekolah.jenis_sekolah;
           this.model.npsn           = response.data.sekolah.npsn;
           this.model.old_npsn       = response.data.sekolah.npsn;
           this.model.alamat         = response.data.sekolah.alamat;
           this.model.logo           = response.data.sekolah.logo;
           this.model.foto_gedung    = response.data.sekolah.foto_gedung;
-          this.model.province_id    = response.data.sekolah.province_id;
-          this.model.city_id        = response.data.sekolah.city_id;
-          this.model.district_id    = response.data.sekolah.district_id;
-          this.model.village_id     = response.data.sekolah.village_id;
+          this.model.province       = response.data.sekolah.province;
+          this.model.city           = response.data.sekolah.city;
+          this.model.district       = response.data.sekolah.district;
+          this.model.village        = response.data.sekolah.village;
           this.model.no_telp        = response.data.sekolah.no_telp;
           this.model.email          = response.data.sekolah.email;
-          this.model.kode_zona        = response.data.sekolah.kode_zona;
+          this.model.kode_zona      = response.data.sekolah.master_zona;
+          //this.model.master_zonasona =response.data.master_zona_id;
 
         } else {
           alert('Failed');
@@ -247,45 +256,118 @@ export default {
 
       axios.get('api/sekolah/create')
       .then(response => {
-          response.data.jenis_sekolah.forEach(element => {
-            this.jenis_sekolah.push(element);
-          });
+        if (response.data.status == true && response.data.error == false) {
+          this.master_zona    = response.data.master_zonas;
+          this.model.user     = response.data.current_user;
+
           if(response.data.user_special == true){
-            response.data.user.forEach(user_element => {
-              this.user.push(user_element);
-            });
+            this.user = response.data.users;
           }else{
-            this.user.push(response.data.user);
+            this.user.push(response.data.users);
           }
+        } else {
+          swal(
+            'Failed',
+            'Oops... '+response.data.message,
+            'error'
+          );
+
+          app.back();
+        }
       })
       .catch(function(response) {
-        alert('Break');
-        window.location.href = '#/admin/sekolah';
+        swal(
+          'Not Found',
+          'Oops... Your page is not found.',
+          'error'
+        );
+
+        app.back();
+      });
+       axios.get('api/jenis-sekolah/get')
+      .then(response => {
+        if (response.data.status == true && response.data.error == false) {
+          this.jenis_sekolah = response.data.jenis_sekolahs;
+        } else {
+          swal(
+            'Failed',
+            'Oops... '+response.data.message,
+            'error'
+          );
+
+          app.back();
+        }
       })
+      .catch(function(response) {
+        swal(
+          'Not Found',
+          'Oops... Your page is not found.',
+          'error'
+        );
+
+        app.back();
+      });
+
+      axios.get('api/wilayah-indonesia/province/get')
+      .then(response => {
+        if (response.data.status == true && response.data.error == false) {
+          this.province = response.data.provinces;
+        } else {
+          swal(
+            'Failed',
+            'Oops... '+response.data.message,
+            'error'
+          );
+
+          app.back();
+        }
+      })
+      .catch(function(response) {
+        swal(
+          'Not Found',
+          'Oops... Your page is not found.',
+          'error'
+        );
+
+        app.back();
+      });
   },
   data() {
     return {
       state: {},
       model: {
-        label:          "",
-        user:           "",
-        jenis_sekolah:  "",
-        npsn:           "",
-        alamat:         "",
-        logo:           "",
-        foto_gedung:    "",
-        province_id: "",
-        city_id: "",
-        district_id: "",
-        village_id: "",
-        no_telp: "",
-        email: "",
-        kode_zona: "",
-        old_user_id:    "",
-        old_npsn:       "",
+        nama              : "",
+        npsn              : "",
+        jenis_sekolah_id  : "",
+        alamat            : "",
+        logo              : "",
+        foto_gedung       : "",
+        province_id       : "",
+        city_id           : "",
+        district_id       : "",
+        village_id        : "",
+        no_telp           : "",
+        email             : "",
+        kode_zona         : "",
+        user_id           : "",
+        created_at        : "",
+        updated_at        : "",
+
+        jenis_sekolah     : "",
+        province          : "",
+        city              : "",
+        district          : "",
+        village           : "",
+        master_zona       : "",
+        user              : "",
       },
-      jenis_sekolah: [],
-      user: []
+      jenis_sekolah : [],
+      province      : [],
+      city          : [],
+      district      : [],
+      village       : [],
+      master_zona   : [],
+      user          : [],
     }
   },
   methods: {
@@ -296,7 +378,8 @@ export default {
         return;
       } else {
         axios.put('api/sekolah/' + this.$route.params.id, {
-            label:              this.model.label,
+
+            nama:               this.model.nama,
             user_id:            this.model.user.id,
             old_user_id:        this.model.old_user_id,
             jenis_sekolah_id:   this.model.jenis_sekolah.id,
@@ -305,28 +388,91 @@ export default {
             alamat:             this.model.alamat,
             logo:               this.model.logo,
             foto_gedung:        this.model.foto_gedung,
-            province_id:        this.model.province_id,
-            city_id:            this.model.city_id,
-            district_id:        this.model.district_id,
-            village_id:         this.model.village_id,
+            province_id:        this.model.province.id,
+            city_id:            this.model.city.id,
+            district_id:        this.model.district.id,
+            village_id:         this.model.village.id,
             no_telp:            this.model.no_telp,
             email:              this.model.email,
-            kode_zona:            this.model.kode_zona,
+            kode_zona:          this.model.kode_zona.id,
           })
           .then(response => {
             if (response.data.status == true) {
-              if(response.data.message == 'success'){
-                alert(response.data.message);
+              if(response.data.error == false){
+                swal(
+                  'Updated',
+                  'Yeah!!! Your data has been updated.',
+                  'success'
+                );
+
                 app.back();
               }else{
-                alert(response.data.message);
+                swal(
+                  'Failed',
+                  'Oops... '+response.data.message,
+                  'error'
+                );
               }
             } else {
-              alert(response.data.message);
+              swal(
+                'Failed',
+                'Oops... '+response.data.message,
+                'error'
+              );
+
+              app.back();
             }
           })
           .catch(function(response) {
-            alert('Break ' + response.data.message);
+            swal(
+              'Not Found',
+              'Oops... Your page is not found.',
+              'error'
+            );
+
+            app.back();
+          });
+      }
+    },
+    changeProvince() {
+      if (typeof this.model.province.id === 'undefined') {
+        this.model.city = "";
+      } else {
+        // this.model.city = "";
+
+        axios.get('api/wilayah-indonesia/city/get/by-province/'+this.model.province.id)
+          .then(response => {
+            if (response.data.status == true && response.data.error == false) {
+              this.city = response.data.cities;
+            }
+          });
+      }
+    },
+    changeCity() {
+      if (typeof this.model.city.id === 'undefined') {
+        this.model.district = "";
+      } else {
+        // this.model.district = "";
+
+        axios.get('api/wilayah-indonesia/district/get/by-city/'+this.model.city.id)
+          .then(response => {
+            if (response.data.status == true && response.data.error == false) {
+              this.district = response.data.districts;
+            }
+          });
+      }
+    },
+    changeDistrict() {
+      if (typeof this.model.district.id === 'undefined') {
+        this.model.village = "";
+      } else {
+        // this.model.village = "";
+
+        axios.get('api/wilayah-indonesia/village/get/by-district/'+this.model.district.id)
+          .then(response => {
+            if (response.data.status == true && response.data.error == false) {
+              this.village = response.data.villages;
+            }
           });
       }
     },
@@ -334,20 +480,22 @@ export default {
       axios.get('api/sekolah/' + this.$route.params.id + '/edit')
         .then(response => {
           if (response.data.status == true) {
-            this.model.label          = response.data.sekolah.label;
-            this.model.user           = response.data.sekolah.user;
-            this.model.jenis_sekolah  = response.data.sekolah.jenis_sekolah.jenis_sekolah;
-            this.model.npsn           = response.data.sekolah.npsn;
-            this.model.alamat         = response.data.sekolah.alamat;
-            this.model.logo           = response.data.sekolah.logo;
-            this.model.foto_gedung    = response.data.sekolah.foto_gedung;
-            this.model.province_id    = response.data.sekolah.province_id;
-          this.model.city_id        = response.data.sekolah.city_id;
-          this.model.district_id    = response.data.sekolah.district_id;
-          this.model.village_id     = response.data.sekolah.village_id;
+          this.model.nama           = response.data.sekolah.nama;
+          this.model.old_user_id    = response.data.sekolah.user_id;
+        //  this.model.user           = response.data.sekolah.user.name;
+          this.model.jenis_sekolah  = response.data.sekolah.jenis_sekolah.jenis_sekolah;
+          this.model.npsn           = response.data.sekolah.npsn;
+          this.model.old_npsn       = response.data.sekolah.npsn;
+          this.model.alamat         = response.data.sekolah.alamat;
+          this.model.logo           = response.data.sekolah.logo;
+          this.model.foto_gedung    = response.data.sekolah.foto_gedung;
+          this.model.province       = response.data.sekolah.province;
+          this.model.city           = response.data.sekolah.city;
+          this.model.district       = response.data.sekolah.district;
+          this.model.village        = response.data.sekolah.village;
           this.model.no_telp        = response.data.sekolah.no_telp;
           this.model.email          = response.data.sekolah.email;
-          this.model.kode_zona        = response.data.sekolah.kode_zona;
+          this.model.kode_zona      = response.data.sekolah.master_zona.label;
           } else {
             alert('Failed');
           }

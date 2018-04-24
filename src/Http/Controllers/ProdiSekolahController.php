@@ -69,7 +69,7 @@ class ProdiSekolahController extends Controller
 
         $perPage = request()->has('per_page') ? (int) request()->per_page : null;
 
-        $response = $query->with('sekolah', 'program_keahlian', 'user')->paginate($perPage);
+        $response = $query->with(['sekolah', 'program_keahlian', 'user'])->paginate($perPage);
 
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
@@ -83,16 +83,45 @@ class ProdiSekolahController extends Controller
      */
     public function get()
     {
-        $prodi_sekolahs = $this->prodi_sekolah->with('sekolah', 'program_keahlian', 'user')->get();
+        $prodi_sekolahs = $this->prodi_sekolah->with(['sekolah', 'program_keahlian', 'user'])->get();
 
         foreach($prodi_sekolahs as $prodi_sekolah){
-            array_set($prodi_sekolah, 'label', $prodi_sekolah->nama);
+            if (isset($prodi_sekolah->program_keahlian->label)) {
+                array_set($prodi_sekolah, 'label', $prodi_sekolah->program_keahlian->label);
+            } else {
+                array_set($prodi_sekolah, 'label', 'Keterangan: '.$prodi_sekolah->keterangan);
+            }
         }
 
         $response['prodi_sekolahs']   = $prodi_sekolahs;
         $response['error']      = false;
         $response['message']    = 'Success';
         $response['status']     = true;
+
+        return response()->json($response);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getBySekolah($id)
+    {
+        $prodi_sekolahs = $this->prodi_sekolah->where('sekolah_id', '=', $id)->with(['sekolah', 'program_keahlian', 'user'])->get();
+
+        foreach($prodi_sekolahs as $prodi_sekolah){
+            if (isset($prodi_sekolah->program_keahlian->label)) {
+                array_set($prodi_sekolah, 'label', $prodi_sekolah->program_keahlian->label);
+            } else {
+                array_set($prodi_sekolah, 'label', 'Keterangan: '.$prodi_sekolah->keterangan);
+            }
+        }
+
+        $response['prodi_sekolahs'] = $prodi_sekolahs;
+        $response['message']        = 'Success';
+        $response['error']          = false;
+        $response['status']         = true;
 
         return response()->json($response);
     }

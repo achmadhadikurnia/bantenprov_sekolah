@@ -17,8 +17,8 @@
         <div class="form-row">
           <div class="col-md">
             <validate tag="div">
-              <label for="nama">Nama</label>
-              <input type="text" class="form-control" name="nama" v-model="model.nama" placeholder="Nama" required autofocus>
+              <label for="nama">Nama Sekolah</label>
+              <input type="text" class="form-control" name="nama" v-model="model.nama" placeholder="Nama Sekolah" required autofocus>
 
               <field-messages name="nama" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
@@ -32,7 +32,7 @@
           <div class="col-md">
             <validate tag="div">
               <label for="npsn">NPSN</label>
-              <input type="text" class="form-control" name="npsn" v-model="model.npsn" placeholder="NPSN" required>
+              <input type="number" class="form-control" name="npsn" v-model="model.npsn" placeholder="NPSN" required>
 
               <field-messages name="npsn" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
@@ -70,12 +70,12 @@
           </div>
         </div>
 
-        <div class="form-row mt-4">
+        <!-- <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
               <label for="logo">Logo</label>
               <input type="text" class="form-control" name="logo" v-model="model.logo" placeholder="Logo" required>
-
+        
               <field-messages name="logo" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
                 <small class="form-text text-danger" slot="required">Label is a required field</small>
@@ -83,13 +83,13 @@
             </validate>
           </div>
         </div>
-
+        
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
               <label for="foto_gedung">Foto Gedung</label>
               <input type="text" class="form-control" name="foto_gedung" v-model="model.foto_gedung" placeholder="Foto Gedung" required>
-
+        
               <field-messages name="foto_gedung" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
                 <small class="form-text text-danger" slot="required">Label is a required field</small>
@@ -97,7 +97,7 @@
             </validate>
           </div>
         </div>
-
+         -->
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
@@ -235,8 +235,8 @@ export default {
         npsn              : "",
         jenis_sekolah_id  : "",
         alamat            : "",
-        logo              : "",
-        foto_gedung       : "",
+        //logo              : "",
+        //foto_gedung       : "",
         province_id       : "",
         city_id           : "",
         district_id       : "",
@@ -359,8 +359,8 @@ export default {
             npsn              : this.model.npsn,
             jenis_sekolah_id  : this.model.jenis_sekolah.id,
             alamat            : this.model.alamat,
-            logo              : this.model.logo,
-            foto_gedung       : this.model.foto_gedung,
+           // logo              : this.model.logo,
+           // foto_gedung       : this.model.foto_gedung,
             province_id       : this.model.province.id,
             city_id           : this.model.city.id,
             district_id       : this.model.district.id,
@@ -456,8 +456,8 @@ export default {
         npsn              : "",
         jenis_sekolah_id  : "",
         alamat            : "",
-        logo              : "",
-        foto_gedung       : "",
+        //logo              : "",
+        //foto_gedung       : "",
         province_id       : "",
         city_id           : "",
         district_id       : "",

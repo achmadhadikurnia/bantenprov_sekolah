@@ -26,11 +26,11 @@
           <dt class="col-4">Alamat</dt>
           <dd class="col-8">{{ model.alamat }}</dd>
 
-          <dt class="col-4">Logo</dt>
-          <dd class="col-8">{{ model.logo }}</dd>
-
-          <dt class="col-4">Foto Gedung</dt>
-          <dd class="col-8">{{ model.foto_gedung }}</dd>
+         <!--  <dt class="col-4">Logo</dt>
+         <dd class="col-8">{{ model.logo }}</dd>
+         
+         <dt class="col-4">Foto Gedung</dt>
+         <dd class="col-8">{{ model.foto_gedung }}</dd> -->
 
           <dt class="col-4">Provinsi</dt>
           <dd class="col-8">{{ model.province.name }}</dd>

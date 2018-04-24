@@ -18,8 +18,8 @@ class CreateSekolahsTable extends Migration
 			$table->string('npsn');
 			$table->integer('jenis_sekolah_id')->nullable();
 			$table->string('alamat');
-			$table->string('logo');
-			$table->string('foto_gedung');
+			$table->string('logo')->nullable();
+			$table->string('foto_gedung')->nullable();
 			$table->string('province_id')->nullable();
 			$table->string('city_id')->nullable();
 			$table->string('district_id')->nullable();
