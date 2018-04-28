@@ -219,6 +219,7 @@ class SekolahController extends Controller
             $error      = true;
             $message    = $validator->errors()->first();
         } else {
+            $sekolah->id                = $request->input('npsn');
             $sekolah->nama              = $request->input('nama');
             $sekolah->npsn              = $request->input('npsn');
             $sekolah->jenis_sekolah_id  = $request->input('jenis_sekolah_id');
@@ -273,7 +274,7 @@ class SekolahController extends Controller
     public function edit($id)
     {
         $sekolah = $this->sekolah->with(['jenis_sekolah', 'province', 'city', 'district', 'village', 'master_zona', 'user'])->findOrFail($id);
-        
+
         $response['sekolah']['province'] = array_add($sekolah->province, 'label', $sekolah->province->name);
 
         $response['sekolah']['city'] = array_add($sekolah->city, 'label', $sekolah->city->name);
@@ -285,7 +286,7 @@ class SekolahController extends Controller
         $response['sekolah']['jenis_sekolah'] = array_add($sekolah->jenis_sekolah, 'label', $sekolah->jenis_sekolah->jenis_sekolah);
 
 
-        
+
 
         $response['sekolah']    = $sekolah;
         $response['error']      = false;
@@ -328,6 +329,7 @@ class SekolahController extends Controller
             $error      = true;
             $message    = $validator->errors()->first();
         } else {
+            $sekolah->id                = $request->input('npsn');
             $sekolah->nama              = $request->input('nama');
             $sekolah->npsn              = $request->input('npsn');
             $sekolah->jenis_sekolah_id  = $request->input('jenis_sekolah_id');
