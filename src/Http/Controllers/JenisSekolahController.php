@@ -76,10 +76,6 @@ class JenisSekolahController extends Controller
     {
         $jenis_sekolahs = $this->jenis_sekolah->with('user')->get();
 
-        foreach($jenis_sekolahs as $jenis_sekolah){
-            array_set($jenis_sekolah, 'label', $jenis_sekolah->jenis_sekolah);
-        }
-
         $response['jenis_sekolahs']   = $jenis_sekolahs;
         $response['error']      = false;
         $response['message']    = 'Success';
@@ -96,7 +92,7 @@ class JenisSekolahController extends Controller
     public function create()
     {
         $user_id        = isset(Auth::User()->id) ? Auth::User()->id : null;
-        $jenis_sekolah        = $this->jenis_sekolah->getAttributes();
+        $jenis_sekolah  = $this->jenis_sekolah->getAttributes();
         $users          = $this->user->getAttributes();
         $users_special  = $this->user->all();
         $users_standar  = $this->user->findOrFail($user_id);
@@ -122,7 +118,7 @@ class JenisSekolahController extends Controller
 
         array_set($current_user, 'label', $current_user->name);
 
-        $response['jenis_sekolah']        = $jenis_sekolah;
+        $response['jenis_sekolah']  = $jenis_sekolah;
         $response['users']          = $users;
         $response['user_special']   = $user_special;
         $response['current_user']   = $current_user;
@@ -176,10 +172,10 @@ class JenisSekolahController extends Controller
     {
         $jenis_sekolah = $this->jenis_sekolah->with(['user'])->findOrFail($id);
 
-        $response['jenis_sekolah']    = $jenis_sekolah;
-        $response['error']      = false;
-        $response['message']    = 'Success';
-        $response['status']     = true;
+        $response['jenis_sekolah']  = $jenis_sekolah;
+        $response['error']          = false;
+        $response['message']        = 'Success';
+        $response['status']         = true;
 
         return response()->json($response);
     }
@@ -193,9 +189,9 @@ class JenisSekolahController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $response['error']          = false;
-        $response['message']        = 'Success';
-        $response['status']         = true;
+        $response['error']      = false;
+        $response['message']    = 'Success';
+        $response['status']     = true;
 
         return response()->json($response);
     }

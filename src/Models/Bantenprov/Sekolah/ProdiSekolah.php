@@ -12,9 +12,6 @@ class ProdiSekolah extends Model
     public $timestamps = true;
 
     protected $table = 'prodi_sekolahs';
-    protected $dates = [
-        'deleted_at'
-    ];
     protected $fillable = [
         'sekolah_id',
         'program_keahlian_id',
@@ -22,13 +19,23 @@ class ProdiSekolah extends Model
         'keterangan',
         'user_id',
     ];
+    protected $hidden = [
+    ];
+    protected $appends = [
+        'label',
+    ];
+    protected $dates = [
+        'deleted_at'
+    ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [];
+    public function getLabelAttribute()
+    {
+        if (isset($this->program_keahlian->label)) {
+            return $this->program_keahlian->label;
+        } else {
+            return 'Keterangan: '.$this->keterangan;
+        }
+    }
 
     public function sekolah()
     {

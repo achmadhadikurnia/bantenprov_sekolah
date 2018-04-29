@@ -95,10 +95,6 @@ class SekolahController extends Controller
     {
         $sekolahs = $this->sekolah->with(['jenis_sekolah', 'province', 'city', 'district', 'village', 'master_zona', 'user'])->get();
 
-        foreach($sekolahs as $sekolah){
-            array_set($sekolah, 'label', $sekolah->nama);
-        }
-
         $response['sekolahs']   = $sekolahs;
         $response['error']      = false;
         $response['message']    = 'Success';
@@ -116,7 +112,6 @@ class SekolahController extends Controller
     {
         $user_id        = isset(Auth::User()->id) ? Auth::User()->id : null;
         $sekolah        = $this->sekolah->getAttributes();
-        $jenis_sekolahs = $this->jenis_sekolah->getAttributes();
         $provinces      = $this->province->getAttributes();
         $cities         = $this->city->getAttributes();
         $districts      = $this->district->getAttributes();
@@ -126,10 +121,6 @@ class SekolahController extends Controller
         $users_special  = $this->user->all();
         $users_standar  = $this->user->findOrFail($user_id);
         $current_user   = Auth::User();
-
-        foreach($jenis_sekolahs as $jenis_sekolah){
-            array_set($jenis_sekolah, 'label', $jenis_sekolah->jenis_sekolah);
-        }
 
         foreach($provinces as $province){
             array_set($province, 'label', $province->name);
@@ -172,7 +163,6 @@ class SekolahController extends Controller
         array_set($current_user, 'label', $current_user->name);
 
         $response['sekolah']        = $sekolah;
-        $response['jenis_sekolahs'] = $jenis_sekolahs;
         $response['provinces']      = $provinces;
         $response['cities']         = $cities;
         $response['districts']      = $districts;
@@ -275,24 +265,14 @@ class SekolahController extends Controller
     {
         $sekolah = $this->sekolah->with(['jenis_sekolah', 'province', 'city', 'district', 'village', 'master_zona', 'user'])->findOrFail($id);
 
-        $response['sekolah']['province'] = array_add($sekolah->province, 'label', $sekolah->province->name);
-
-        $response['sekolah']['city'] = array_add($sekolah->city, 'label', $sekolah->city->name);
-
-        $response['sekolah']['district'] = array_add($sekolah->district, 'label', $sekolah->district->name);
-
-        $response['sekolah']['village'] = array_add($sekolah->village, 'label', $sekolah->village->name);
-
-        $response['sekolah']['jenis_sekolah'] = array_add($sekolah->jenis_sekolah, 'label', $sekolah->jenis_sekolah->jenis_sekolah);
-
-
-
-
-        $response['sekolah']    = $sekolah;
-        $response['error']      = false;
-        $response['message']    = 'Success';
-        $response['status']     = true;
-
+        $response['sekolah']['province']    = array_add($sekolah->province, 'label', $sekolah->province->name);
+        $response['sekolah']['city']        = array_add($sekolah->city, 'label', $sekolah->city->name);
+        $response['sekolah']['district']    = array_add($sekolah->district, 'label', $sekolah->district->name);
+        $response['sekolah']['village']     = array_add($sekolah->village, 'label', $sekolah->village->name);
+        $response['sekolah']                = $sekolah;
+        $response['error']                  = false;
+        $response['message']                = 'Success';
+        $response['status']             = true;
 
         return response()->json($response);
     }

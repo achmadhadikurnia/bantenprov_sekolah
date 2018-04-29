@@ -12,24 +12,27 @@ class JenisSekolah extends Model
     public $timestamps = true;
 
     protected $table = 'jenis_sekolahs';
-    protected $dates = [
-        'deleted_at'
-    ];
     protected $fillable = [
         'jenis_sekolah',
         'user_id',
     ];
+    protected $appends = [
+        'label',
+    ];
+    protected $hidden = [
+    ];
+    protected $dates = [
+        'deleted_at',
+    ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [];
-
-        public function user()
+    public function getLabelAttribute()
     {
-        return $this->belongsTo('App\User','user_id');
+        return $this->jenis_sekolah;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'user_id');
     }
 
 }
