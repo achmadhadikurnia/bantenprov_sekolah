@@ -32,6 +32,8 @@ class Sekolah extends Model
     ];
     protected $appends = [
         'label',
+        'jalur_umum',
+        'jalur_prestasi',
         'jumlah_pendaftar',
     ];
     protected $dates = [
@@ -41,6 +43,21 @@ class Sekolah extends Model
     public function getLabelAttribute()
     {
         return $this->nama;
+    }
+
+    public function getJalurUmumAttribute()
+    {
+        return 0;
+    }
+
+    public function getJalurPrestasiAttribute()
+    {
+        return 0;
+    }
+
+    public function getJumlahPendaftarAttribute()
+    {
+        return $this->siswas->count();
     }
 
     public function user()
@@ -81,10 +98,5 @@ class Sekolah extends Model
     public function siswas()
     {
         return $this->hasMany('Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa', 'sekolah_id');
-    }
-
-    public function getJumlahPendaftarAttribute()
-    {
-        return $this->siswas->count();
     }
 }
