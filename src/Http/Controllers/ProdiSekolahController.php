@@ -85,18 +85,10 @@ class ProdiSekolahController extends Controller
     {
         $prodi_sekolahs = $this->prodi_sekolah->with(['sekolah', 'program_keahlian', 'user'])->get();
 
-        foreach($prodi_sekolahs as $prodi_sekolah){
-            if (isset($prodi_sekolah->program_keahlian->label)) {
-                array_set($prodi_sekolah, 'label', $prodi_sekolah->program_keahlian->label);
-            } else {
-                array_set($prodi_sekolah, 'label', 'Keterangan: '.$prodi_sekolah->keterangan);
-            }
-        }
-
-        $response['prodi_sekolahs']   = $prodi_sekolahs;
-        $response['error']      = false;
-        $response['message']    = 'Success';
-        $response['status']     = true;
+        $response['prodi_sekolahs'] = $prodi_sekolahs;
+        $response['error']          = false;
+        $response['message']        = 'Success';
+        $response['status']         = true;
 
         return response()->json($response);
     }
@@ -109,14 +101,6 @@ class ProdiSekolahController extends Controller
     public function getBySekolah($id)
     {
         $prodi_sekolahs = $this->prodi_sekolah->where('sekolah_id', '=', $id)->with(['sekolah', 'program_keahlian', 'user'])->get();
-
-        foreach($prodi_sekolahs as $prodi_sekolah){
-            if (isset($prodi_sekolah->program_keahlian->label)) {
-                array_set($prodi_sekolah, 'label', $prodi_sekolah->program_keahlian->label);
-            } else {
-                array_set($prodi_sekolah, 'label', 'Keterangan: '.$prodi_sekolah->keterangan);
-            }
-        }
 
         $response['prodi_sekolahs'] = $prodi_sekolahs;
         $response['message']        = 'Success';
@@ -133,18 +117,13 @@ class ProdiSekolahController extends Controller
      */
     public function create()
     {
-        $user_id        = isset(Auth::User()->id) ? Auth::User()->id : null;
+        $user_id            = isset(Auth::User()->id) ? Auth::User()->id : null;
         $prodi_sekolah      = $this->prodi_sekolah->getAttributes();
-        $sekolahs           = $this->sekolah->getAttributes();
         $program_keahlians  = $this->program_keahlian->all();
         $users              = $this->user->getAttributes();
         $users_special      = $this->user->all();
         $users_standar      = $this->user->findOrFail($user_id);
         $current_user       = Auth::User();
-
-        foreach($sekolahs as $sekolah){
-            array_set($sekolah, 'label', $sekolah->nama);
-        }
 
         foreach($program_keahlians as $program_keahlian){
             array_set($program_keahlian, 'label', $program_keahlian->label);
@@ -171,7 +150,6 @@ class ProdiSekolahController extends Controller
         array_set($current_user, 'label', $current_user->name);
 
         $response['prodi_sekolah']      = $prodi_sekolah;
-        $response['sekolahs']           = $sekolahs;
         $response['program_keahlians']  = $program_keahlians;
         $response['users']              = $users;
         $response['user_special']       = $user_special;
@@ -252,12 +230,7 @@ class ProdiSekolahController extends Controller
     {
         $prodi_sekolah = $this->prodi_sekolah->with(['sekolah', 'program_keahlian', 'user'])->findOrFail($id);
 
-         $response['prodi_sekolah']['sekolah'] = array_add($prodi_sekolah->sekolah, 'label', $prodi_sekolah->sekolah->nama);
-
-
-
         $response['prodi_sekolah']  = $prodi_sekolah;
-        //$response['sekolah']        = $sekolahs;
         $response['error']          = false;
         $response['message']        = 'Success';
         $response['status']         = true;
@@ -287,8 +260,7 @@ class ProdiSekolahController extends Controller
         if ($validator->fails()) {
             $error      = true;
             $message    = $validator->errors()->first();
-
-            } else {
+        } else {
                 $prodi_sekolah->sekolah_id          = $request->input('sekolah_id');
                 $prodi_sekolah->user_id             = $request->input('user_id');
                 $prodi_sekolah->program_keahlian_id = $request->input('program_keahlian_id');
