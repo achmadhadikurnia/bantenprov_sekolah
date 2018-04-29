@@ -31,6 +31,9 @@ class Sekolah extends Model
         'kode_zona',
         'user_id',
     ];
+    protected $appends = [
+        'jumlah_pendaftar'
+    ];
 
     public function user()
     {
@@ -65,5 +68,10 @@ class Sekolah extends Model
     public function master_zona()
     {
         return $this->belongsTo('Bantenprov\Zona\Models\Bantenprov\Zona\MasterZona','kode_zona');
+    }
+
+    public function getJumlahPendaftarAttribute()
+    {
+        return $this->siswas->count();
     }
 }
