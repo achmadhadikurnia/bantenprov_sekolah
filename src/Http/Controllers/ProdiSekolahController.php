@@ -175,7 +175,7 @@ class ProdiSekolahController extends Controller
             'sekolah_id'            => "required|exists:{$this->sekolah->getTable()},id",
             'program_keahlian_id'   => "required|exists:{$this->program_keahlian->getTable()},id|unique:{$this->prodi_sekolah->getTable()},program_keahlian_id,NULL,id,sekolah_id,{$request->input('sekolah_id')},deleted_at,NULL",
             'kuota_siswa'           => 'required|numeric|min:0|max:100000',
-            // 'keterangan'            => 'max:255',
+            'keterangan'            => 'max:255',
             'user_id'               => "required|exists:{$this->user->getTable()},id",
         ]);
 
@@ -186,7 +186,7 @@ class ProdiSekolahController extends Controller
             $prodi_sekolah->sekolah_id          = $request->input('sekolah_id');
             $prodi_sekolah->program_keahlian_id = $request->input('program_keahlian_id');
             $prodi_sekolah->kuota_siswa         = $request->input('kuota_siswa');
-            // $prodi_sekolah->keterangan          = $request->input('keterangan');
+            $prodi_sekolah->keterangan          = $request->input('keterangan');
             $prodi_sekolah->user_id             = $request->input('user_id');
             $prodi_sekolah->save();
 
@@ -252,7 +252,7 @@ class ProdiSekolahController extends Controller
         $validator = Validator::make($request->all(), [
             'sekolah_id'             => 'required',
             'user_id'                => "required|exists:{$this->user->getTable()},id",
-            // 'keterangan'             => 'required',
+            'keterangan'             => 'required',
             'kuota_siswa'            => 'required',
             'program_keahlian_id'    => 'required',
         ]);
@@ -264,7 +264,7 @@ class ProdiSekolahController extends Controller
             $prodi_sekolah->sekolah_id          = $request->input('sekolah_id');
             $prodi_sekolah->user_id             = $request->input('user_id');
             $prodi_sekolah->program_keahlian_id = $request->input('program_keahlian_id');
-            // $prodi_sekolah->keterangan          = $request->input('keterangan');
+            $prodi_sekolah->keterangan          = $request->input('keterangan');
             $prodi_sekolah->kuota_siswa         = $request->input('kuota_siswa');
             $prodi_sekolah->save();
 

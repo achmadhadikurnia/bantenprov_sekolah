@@ -187,8 +187,8 @@ class SekolahController extends Controller
             'npsn'              => "required|between:4,17|unique:{$this->sekolah->getTable()},npsn,NULL,id,deleted_at,NULL",
             'jenis_sekolah_id'  => "required|exists:{$this->jenis_sekolah->getTable()},id",
             'alamat'            => 'required|max:255',
-            // 'logo'              => 'required|max:255',
-            // 'foto_gedung'       => 'required|max:255',
+            'logo'              => 'max:255',
+            'foto_gedung'       => 'max:255',
             'province_id'       => "required|exists:{$this->province->getTable()},id",
             'city_id'           => "required|exists:{$this->city->getTable()},id",
             'district_id'       => "required|exists:{$this->district->getTable()},id",
@@ -208,8 +208,8 @@ class SekolahController extends Controller
             $sekolah->npsn              = $request->input('npsn');
             $sekolah->jenis_sekolah_id  = $request->input('jenis_sekolah_id');
             $sekolah->alamat            = $request->input('alamat');
-            // $sekolah->logo              = $request->input('logo');
-            // $sekolah->foto_gedung       = $request->input('foto_gedung');
+            $sekolah->logo              = $request->input('logo');
+            $sekolah->foto_gedung       = $request->input('foto_gedung');
             $sekolah->province_id       = $request->input('province_id');
             $sekolah->city_id           = $request->input('city_id');
             $sekolah->district_id       = $request->input('district_id');
@@ -287,8 +287,8 @@ class SekolahController extends Controller
             'npsn'              => "required|between:4,17|unique:{$this->sekolah->getTable()},npsn,{$id},id,deleted_at,NULL",
             'jenis_sekolah_id'  => "required|exists:{$this->jenis_sekolah->getTable()},id",
             'alamat'            => 'required|max:255',
-            // 'logo'              => 'required|max:255',
-            // 'foto_gedung'       => 'required|max:255',
+            'logo'              => 'max:255',
+            'foto_gedung'       => 'max:255',
             'province_id'       => "required|exists:{$this->province->getTable()},id",
             'city_id'           => "required|exists:{$this->city->getTable()},id",
             'district_id'       => "required|exists:{$this->district->getTable()},id",
@@ -308,8 +308,8 @@ class SekolahController extends Controller
             $sekolah->npsn              = $request->input('npsn');
             $sekolah->jenis_sekolah_id  = $request->input('jenis_sekolah_id');
             $sekolah->alamat            = $request->input('alamat');
-            // $sekolah->logo              = $request->input('logo');
-            // $sekolah->foto_gedung       = $request->input('foto_gedung');
+            $sekolah->logo              = $request->input('logo');
+            $sekolah->foto_gedung       = $request->input('foto_gedung');
             $sekolah->province_id       = $request->input('province_id');
             $sekolah->city_id           = $request->input('city_id');
             $sekolah->district_id       = $request->input('district_id');
