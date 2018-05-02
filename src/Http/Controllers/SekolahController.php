@@ -162,7 +162,6 @@ class SekolahController extends Controller
         $response['cities']         = $cities;
         $response['districts']      = $districts;
         $response['villages']       = $villages;
-        $response['master_zonas']   = $master_zonas;
         $response['users']          = $users;
         $response['user_special']   = $user_special;
         $response['current_user']   = $current_user;

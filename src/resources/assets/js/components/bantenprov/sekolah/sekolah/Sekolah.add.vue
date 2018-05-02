@@ -22,7 +22,7 @@
 
               <field-messages name="nama" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Nomor UN is a required field</small>
+                <small class="form-text text-danger" slot="required">Nama Sekolah UN is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -36,7 +36,7 @@
 
               <field-messages name="npsn" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">NPSN is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -50,7 +50,7 @@
 
               <field-messages name="jenis_sekolah_id" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">User is a required field</small>
+                <small class="form-text text-danger" slot="required">Jenis Sekolah is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -64,7 +64,7 @@
 
               <field-messages name="alamat" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">Alamat is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -75,29 +75,29 @@
             <validate tag="div">
               <label for="logo">Logo</label>
               <input type="text" class="form-control" name="logo" v-model="model.logo" placeholder="Logo" required>
-        
+
               <field-messages name="logo" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">Logo is a required field</small>
               </field-messages>
             </validate>
           </div>
-        </div>
-        
-        <div class="form-row mt-4">
+        </div> -->
+
+        <!-- <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
               <label for="foto_gedung">Foto Gedung</label>
               <input type="text" class="form-control" name="foto_gedung" v-model="model.foto_gedung" placeholder="Foto Gedung" required>
-        
+
               <field-messages name="foto_gedung" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">Foto Gedung is a required field</small>
               </field-messages>
             </validate>
           </div>
-        </div>
-         -->
+        </div> -->
+
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
@@ -106,7 +106,7 @@
 
               <field-messages name="province_id" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">provinsi is a required field</small>
+                <small class="form-text text-danger" slot="required">Provinsi is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -120,7 +120,7 @@
 
               <field-messages name="city_id" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Kabupaten is a required field</small>
+                <small class="form-text text-danger" slot="required">Kabupaten/Kota is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -134,7 +134,7 @@
 
                 <field-messages name="district_id" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Kota is a required field</small>
+                <small class="form-text text-danger" slot="required">Kecamatan is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -148,7 +148,7 @@
 
               <field-messages name="village_id" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Desa is a required field</small>
+                <small class="form-text text-danger" slot="required">Kelurahan/Desa is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -162,7 +162,7 @@
 
               <field-messages name="no_telp" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">Nomor Telepon is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -176,7 +176,7 @@
 
               <field-messages name="email" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">Email is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -190,7 +190,7 @@
 
               <field-messages name="kode_zona" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">User is a required field</small>
+                <small class="form-text text-danger" slot="required">Zona is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -231,30 +231,30 @@ export default {
       state: {},
       title: 'Add Sekolah',
       model: {
-        nama              : "",
-        npsn              : "",
-        jenis_sekolah_id  : "",
-        alamat            : "",
-        //logo              : "",
-        //foto_gedung       : "",
-        province_id       : "",
-        city_id           : "",
-        district_id       : "",
-        village_id        : "",
-        no_telp           : "",
-        email             : "",
-        kode_zona         : "",
-        user_id           : "",
-        created_at        : "",
-        updated_at        : "",
+        nama              : '',
+        npsn              : '',
+        jenis_sekolah_id  : '',
+        alamat            : '',
+        // logo              : '',
+        // foto_gedung       : '',
+        province_id       : '',
+        city_id           : '',
+        district_id       : '',
+        village_id        : '',
+        no_telp           : '',
+        email             : '',
+        kode_zona         : '',
+        user_id           : '',
+        created_at        : '',
+        updated_at        : '',
 
-        jenis_sekolah     : "",
-        province          : "",
-        city              : "",
-        district          : "",
-        village           : "",
-        master_zona       : "",
-        user              : "",
+        jenis_sekolah     : '',
+        province          : '',
+        city              : '',
+        district          : '',
+        village           : '',
+        master_zona       : '',
+        user              : '',
       },
       jenis_sekolah : [],
       province      : [],
@@ -271,8 +271,7 @@ export default {
     axios.get('api/sekolah/create')
       .then(response => {
         if (response.data.status == true && response.data.error == false) {
-          this.master_zona    = response.data.master_zonas;
-          this.model.user     = response.data.current_user;
+          this.model.user   = response.data.current_user;
 
           if(response.data.user_special == true){
             this.user = response.data.users;
@@ -346,6 +345,30 @@ export default {
 
         app.back();
       });
+
+    axios.get('api/master-zona/get')
+      .then(response => {
+        if (response.data.status == true && response.data.error == false) {
+          this.master_zona = response.data.master_zonas;
+        } else {
+          swal(
+            'Failed',
+            'Oops... '+response.data.message,
+            'error'
+          );
+
+          app.back();
+        }
+      })
+      .catch(function(response) {
+        swal(
+          'Not Found',
+          'Oops... Your page is not found.',
+          'error'
+        );
+
+        app.back();
+      });
   },
   methods: {
     onSubmit: function() {
@@ -359,8 +382,8 @@ export default {
             npsn              : this.model.npsn,
             jenis_sekolah_id  : this.model.jenis_sekolah.id,
             alamat            : this.model.alamat,
-           // logo              : this.model.logo,
-           // foto_gedung       : this.model.foto_gedung,
+            // logo              : this.model.logo,
+            // foto_gedung       : this.model.foto_gedung,
             province_id       : this.model.province.id,
             city_id           : this.model.city.id,
             district_id       : this.model.district.id,
@@ -410,9 +433,9 @@ export default {
     },
     changeProvince() {
       if (typeof this.model.province.id === 'undefined') {
-        this.model.city = "";
+        this.model.city = '';
       } else {
-        this.model.city = "";
+        this.model.city = '';
 
         axios.get('api/wilayah-indonesia/city/get/by-province/'+this.model.province.id)
           .then(response => {
@@ -424,9 +447,9 @@ export default {
     },
     changeCity() {
       if (typeof this.model.city.id === 'undefined') {
-        this.model.district = "";
+        this.model.district = '';
       } else {
-        this.model.district = "";
+        this.model.district = '';
 
         axios.get('api/wilayah-indonesia/district/get/by-city/'+this.model.city.id)
           .then(response => {
@@ -438,9 +461,9 @@ export default {
     },
     changeDistrict() {
       if (typeof this.model.district.id === 'undefined') {
-        this.model.village = "";
+        this.model.village = '';
       } else {
-        this.model.village = "";
+        this.model.village = '';
 
         axios.get('api/wilayah-indonesia/village/get/by-district/'+this.model.district.id)
           .then(response => {
@@ -452,30 +475,30 @@ export default {
     },
     reset() {
       this.model = {
-        nama              : "",
-        npsn              : "",
-        jenis_sekolah_id  : "",
-        alamat            : "",
-        //logo              : "",
-        //foto_gedung       : "",
-        province_id       : "",
-        city_id           : "",
-        district_id       : "",
-        village_id        : "",
-        no_telp           : "",
-        email             : "",
-        kode_zona         : "",
-        user_id           : "",
-        created_at        : "",
-        updated_at        : "",
+        nama              : '',
+        npsn              : '',
+        jenis_sekolah_id  : '',
+        alamat            : '',
+        // logo              : '',
+        // foto_gedung       : '',
+        province_id       : '',
+        city_id           : '',
+        district_id       : '',
+        village_id        : '',
+        no_telp           : '',
+        email             : '',
+        kode_zona         : '',
+        user_id           : '',
+        created_at        : '',
+        updated_at        : '',
 
-        jenis_sekolah     : "",
-        province          : "",
-        city              : "",
-        district          : "",
-        village           : "",
-        master_zona       : "",
-        user              : "",
+        jenis_sekolah     : '',
+        province          : '',
+        city              : '',
+        district          : '',
+        village           : '',
+        master_zona       : '',
+        user              : '',
       };
     },
     back() {
