@@ -216,7 +216,6 @@
             <button type="reset" class="btn btn-secondary" @click="reset">Reset</button>
           </div>
         </div>
-
       </vue-form>
     </div>
   </div>
