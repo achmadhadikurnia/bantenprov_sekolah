@@ -116,7 +116,6 @@ class SekolahController extends Controller
         $cities         = $this->city->getAttributes();
         $districts      = $this->district->getAttributes();
         $villages       = $this->village->getAttributes();
-        $master_zonas   = $this->master_zona->all();
         $users          = $this->user->getAttributes();
         $users_special  = $this->user->all();
         $users_standar  = $this->user->findOrFail($user_id);
@@ -136,10 +135,6 @@ class SekolahController extends Controller
 
         foreach($villages as $village){
             array_set($village, 'label', $village->name);
-        }
-
-        foreach($master_zonas as $master_zona){
-            array_set($master_zona, 'label', $master_zona->label);
         }
 
         $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
