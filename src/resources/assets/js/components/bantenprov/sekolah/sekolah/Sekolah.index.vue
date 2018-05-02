@@ -26,7 +26,7 @@
 
       <div class="table-responsive">
         <vuetable ref="vuetable"
-          api-url="/api/sekolah"
+          :api-url="api_url"
           :fields="fields"
           :sort-order="sortOrder"
           :css="css.table"
@@ -86,6 +86,7 @@ export default {
     return {
       loading: true,
       title: 'Sekolah',
+      api_url: '/api/sekolah',
       fields: [
         {
           name: '__sequence',
@@ -152,6 +153,19 @@ export default {
     }
   },
   methods: {
+    onPaginationData(paginationData) {
+      this.$refs.pagination.setPaginationData(paginationData);
+      this.$refs.paginationInfo.setPaginationData(paginationData);
+    },
+    onChangePage(page) {
+      this.$refs.vuetable.changePage(page);
+    },
+    onLoading: function() {
+      this.loading = true;
+    },
+    onLoaded: function() {
+      this.loading = false;
+    },
     createRow() {
       window.location = '#/admin/sekolah/create';
     },
@@ -212,19 +226,6 @@ export default {
           );
         }
       });
-    },
-    onPaginationData(paginationData) {
-      this.$refs.pagination.setPaginationData(paginationData);
-      this.$refs.paginationInfo.setPaginationData(paginationData);
-    },
-    onChangePage(page) {
-      this.$refs.vuetable.changePage(page);
-    },
-    onLoading: function() {
-      this.loading = true;
-    },
-    onLoaded: function() {
-      this.loading = false;
     }
   },
   events: {
