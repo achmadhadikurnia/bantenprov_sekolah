@@ -3,9 +3,9 @@ use Illuminate\Database\Seeder;
 /**
  * Usage :
  * [1] $ composer dump-autoload -o
- * [2] $ php artisan db:seed --class=BantenprovSekolahSeederProdiSekolah
+ * [2] $ php artisan db:seed --class=BantenprovProdiSekolahSeeder
  */
-class BantenprovSekolahSeederProdiSekolah extends Seeder
+class BantenprovProdiSekolahSeeder extends Seeder
 {
     /* text color */
     protected $RED     ="\033[0;31m";
@@ -18,7 +18,7 @@ class BantenprovSekolahSeederProdiSekolah extends Seeder
     protected $NC      ="\033[0m";
     /* File name */
     /* location : /databse/seeds/file_name.csv */
-    protected $fileName = "BantenprovSekolahSeederProdiSekolah.csv";
+    protected $fileName = "BantenprovProdiSekolahSeeder.csv";
     /* text info : default (true) */
     protected $textInfo = true;
     /* model class */
@@ -42,32 +42,33 @@ class BantenprovSekolahSeederProdiSekolah extends Seeder
         /* silahkan di rubah sesuai kebutuhan */
         foreach($this->readCSV() as $data){
 
+            
+            $this->model->create([
+                'sekolah_id' => $data['sekolah_id'],
+                'program_keahlian_id' => $data['program_keahlian_id'],
+                
+                'kuota_siswa' => $data['kuota_siswa'],
+                'keterangan' => $data['keterangan'],
+                'user_id' => $data['user_id'],
 
-        	$this->model->create([
-            	'sekolah_id' => $data['sekolah_id'],
-				'program_keahlian_id' => $data['program_keahlian_id'],
-				'keterangan' => $data['keterangan'],
-				'kuota_siswa' => $data['kuota_siswa'],
-				'user_id' => $data['user_id'],
-
-        	]);
-
+            ]);
+        
 
         }
 
-        if($this->textInfo){
+        if($this->textInfo){                
             echo "============[DATA]============\n";
             $this->orangeText('sekolah_id : ').$this->greenText($data['sekolah_id']);
-			echo"\n";
-			$this->orangeText('program_keahlian_id : ').$this->greenText($data['program_keahlian_id']);
-			echo"\n";
-			$this->orangeText('keterangan : ').$this->greenText($data['keterangan']);
-			echo"\n";
-			$this->orangeText('kuota_siswa : ').$this->greenText($data['kuota_siswa']);
-			echo"\n";
-			$this->orangeText('user_id : ').$this->greenText($data['user_id']);
-			echo"\n";
-
+            echo"\n";
+            $this->orangeText('program_keahlian_id : ').$this->greenText($data['program_keahlian_id']);
+            echo"\n";
+            $this->orangeText('keterangan : ').$this->greenText($data['keterangan']);
+            echo"\n";
+            $this->orangeText('kuota_siswa : ').$this->greenText($data['kuota_siswa']);
+            echo"\n";
+            $this->orangeText('user_id : ').$this->greenText($data['user_id']);
+            echo"\n";
+        
             echo "============[DATA]============\n\n";
         }
 
@@ -91,7 +92,11 @@ class BantenprovSekolahSeederProdiSekolah extends Seeder
         $all_data = array();
         $row = 1;
         while(($data = fgetcsv($file, 1000, ",")) !== FALSE){
-            $all_data[] = ['sekolah_id' => $data[0],'program_keahlian_id' => $data[1],'keterangan' => $data[2],'kuota_siswa' => $data[3],'user_id' => $data[4],];
+            $all_data[] = [ 'sekolah_id'            => $data[0],
+                            'program_keahlian_id'   => $data[1],
+                            'kuota_siswa'           => $data[2],
+                            'keterangan'            => $data[3],
+                            'user_id'               => $data[4],];
         }
         fclose($file);
         return  $all_data;
