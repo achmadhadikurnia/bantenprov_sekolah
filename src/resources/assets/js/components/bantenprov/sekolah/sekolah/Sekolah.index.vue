@@ -26,7 +26,7 @@
 
       <div class="table-responsive">
         <vuetable ref="vuetable"
-          api-url="/api/sekolah"
+          :api-url="api_url"
           :fields="fields"
           :sort-order="sortOrder"
           :css="css.table"
@@ -53,8 +53,7 @@
       </div>
 
       <div class="d-flex justify-content-between align-items-center">
-        <vuetable-pagination-info ref="paginationInfo"
-        ></vuetable-pagination-info>
+        <vuetable-pagination-info ref="paginationInfo"></vuetable-pagination-info>
         <vuetable-pagination ref="pagination"
           :css="css.pagination"
           @vuetable-pagination:change-page="onChangePage">
@@ -86,6 +85,7 @@ export default {
     return {
       loading: true,
       title: 'Sekolah',
+      api_url: '/api/sekolah',
       fields: [
         {
           name: '__sequence',
@@ -152,6 +152,19 @@ export default {
     }
   },
   methods: {
+    onPaginationData(paginationData) {
+      this.$refs.pagination.setPaginationData(paginationData);
+      this.$refs.paginationInfo.setPaginationData(paginationData);
+    },
+    onChangePage(page) {
+      this.$refs.vuetable.changePage(page);
+    },
+    onLoading: function() {
+      this.loading = true;
+    },
+    onLoaded: function() {
+      this.loading = false;
+    },
     createRow() {
       window.location = '#/admin/sekolah/create';
     },
@@ -212,19 +225,6 @@ export default {
           );
         }
       });
-    },
-    onPaginationData(paginationData) {
-      this.$refs.pagination.setPaginationData(paginationData);
-      this.$refs.paginationInfo.setPaginationData(paginationData);
-    },
-    onChangePage(page) {
-      this.$refs.vuetable.changePage(page);
-    },
-    onLoading: function() {
-      this.loading = true;
-    },
-    onLoaded: function() {
-      this.loading = false;
     }
   },
   events: {

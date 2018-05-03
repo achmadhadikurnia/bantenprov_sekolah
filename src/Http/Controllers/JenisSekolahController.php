@@ -54,6 +54,7 @@ class JenisSekolahController extends Controller
         if ($request->exists('filter')) {
             $query->where(function($q) use($request) {
                 $value = "%{$request->filter}%";
+
                 $q->where('jenis_sekolah', 'like', $value);
             });
         }
@@ -76,10 +77,10 @@ class JenisSekolahController extends Controller
     {
         $jenis_sekolahs = $this->jenis_sekolah->with('user')->get();
 
-        $response['jenis_sekolahs']   = $jenis_sekolahs;
-        $response['error']      = false;
-        $response['message']    = 'Success';
-        $response['status']     = true;
+        $response['jenis_sekolahs'] = $jenis_sekolahs;
+        $response['error']          = false;
+        $response['message']        = 'Success';
+        $response['status']         = true;
 
         return response()->json($response);
     }
@@ -154,10 +155,10 @@ class JenisSekolahController extends Controller
     {
         $jenis_sekolah = $this->jenis_sekolah->with(['user'])->findOrFail($id);
 
-        $response['jenis_sekolah']    = $jenis_sekolah;
-        $response['error']      = false;
-        $response['message']    = 'Success';
-        $response['status']     = true;
+        $response['jenis_sekolah']  = $jenis_sekolah;
+        $response['error']          = false;
+        $response['message']        = 'Success';
+        $response['status']         = true;
 
         return response()->json($response);
     }
