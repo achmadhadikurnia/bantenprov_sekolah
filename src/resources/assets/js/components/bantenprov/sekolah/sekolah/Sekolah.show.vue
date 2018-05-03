@@ -3,13 +3,20 @@
     <div class="card-header">
       <i class="fa fa-table" aria-hidden="true"></i> {{ title }}
 
-      <ul class="nav nav-pills card-header-pills pull-right">
-        <li class="nav-item">
-          <button class="btn btn-primary btn-sm" role="button" @click="back">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i>
-          </button>
-        </li>
-      </ul>
+      <div class="btn-group pull-right" role="group" style="display:flex;">
+        <button class="btn btn-primary btn-sm" role="button" @click="createRow">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-warning btn-sm" role="button" @click="editRow">
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-danger btn-sm" role="button" @click="deleteRow">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-primary btn-sm" role="button" @click="back">
+          <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </button>
+      </div>
     </div>
 
     <div class="card-body">
@@ -26,11 +33,11 @@
           <dt class="col-4">Alamat</dt>
           <dd class="col-8">{{ model.alamat }}</dd>
 
-         <!--  <dt class="col-4">Logo</dt>
-         <dd class="col-8">{{ model.logo }}</dd>
-         
-         <dt class="col-4">Foto Gedung</dt>
-         <dd class="col-8">{{ model.foto_gedung }}</dd> -->
+          <!-- <dt class="col-4">Logo</dt>
+          <dd class="col-8">{{ model.logo }}</dd> -->
+
+          <!-- <dt class="col-4">Foto Gedung</dt>
+          <dd class="col-8">{{ model.foto_gedung }}</dd> -->
 
           <dt class="col-4">Provinsi</dt>
           <dd class="col-8">{{ model.province.name }}</dd>
@@ -78,20 +85,20 @@ export default {
       state: {},
       title: 'View Sekolah',
       model: {
-        nama              : "",
-        npsn              : "",
-        jenis_sekolah_id  : "",
-        alamat            : "",
-        logo              : "",
-        foto_gedung       : "",
-        province_id       : "",
-        city_id           : "",
-        district_id       : "",
-        village_id        : "",
-        no_telp           : "",
-        email             : "",
-        kode_zona         : "",
-        user_id           : "",
+        nama              : '',
+        npsn              : '',
+        jenis_sekolah_id  : '',
+        alamat            : '',
+        logo              : '',
+        foto_gedung       : '',
+        province_id       : '',
+        city_id           : '',
+        district_id       : '',
+        village_id        : '',
+        no_telp           : '',
+        email             : '',
+        kode_zona         : '',
+        user_id           : '',
 
         jenis_sekolah     : [],
         province          : [],
@@ -135,31 +142,52 @@ export default {
           this.model.user             = response.data.sekolah.user;
 
           if (this.model.jenis_sekolah === null) {
-            this.model.jenis_sekolah = {"id": this.model.jenis_sekolah_id,"jenis_sekolah":""};
+            this.model.jenis_sekolah = {
+              'id'            : this.model.jenis_sekolah_id,
+              'jenis_sekolah' :''
+            };
           }
 
           if (this.model.province === null) {
-            this.model.province = {"id": this.model.province_id,"name":""};
+            this.model.province = {
+              'id'    : this.model.province_id,
+              'name'  :''
+            };
           }
 
           if (this.model.city === null) {
-            this.model.city = {"id": this.model.city_id,"name":""};
+            this.model.city = {
+              'id'    : this.model.city_id,
+              'name'  :''
+            };
           }
 
           if (this.model.district === null) {
-            this.model.district = {"id": this.model.district_id,"name":""};
+            this.model.district = {
+              'id'    : this.model.district_id,
+              'name'  :''
+            };
           }
 
           if (this.model.village === null) {
-            this.model.village = {"id": this.model.village_id,"name":""};
+            this.model.village = {
+              'id'    : this.model.village_id,
+              'name'  :''
+            };
           }
 
           if (this.model.master_zona === null) {
-            this.model.master_zona = {"id": this.model.kode_zona,"label":""};
+            this.model.master_zona = {
+              'id'    : this.model.kode_zona,
+              'label' :''
+            };
           }
 
           if (this.model.user === null) {
-            this.model.user = {"id": this.model.user_id,"name":""};
+            this.model.user = {
+              'id'    : this.model.user_id,
+              'name'  :''
+            };
           }
         } else {
           swal(
@@ -182,6 +210,64 @@ export default {
       });
   },
   methods: {
+    createRow() {
+      window.location = '#/admin/sekolah/create';
+    },
+    editRow() {
+      window.location = '#/admin/sekolah/'+this.$route.params.id+'/edit';
+    },
+    deleteRow() {
+      let app = this;
+
+      swal({
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value) {
+          axios.delete('/api/sekolah/'+this.$route.params.id)
+            .then(function(response) {
+              if (response.data.status == true) {
+                app.back();
+
+                swal(
+                  'Deleted',
+                  'Yeah!!! Your data has been deleted.',
+                  'success'
+                );
+              } else {
+                swal(
+                  'Failed',
+                  'Oops... Failed to delete data.',
+                  'error'
+                );
+              }
+            })
+            .catch(function(response) {
+              swal(
+                'Not Found',
+                'Oops... Your page is not found.',
+                'error'
+              );
+            });
+        } else if (result.dismiss === swal.DismissReason.cancel) {
+          swal(
+            'Cancelled',
+            'Your data is safe.',
+            'error'
+          );
+        }
+      });
+    },
     back() {
       window.location = '#/admin/sekolah';
     }

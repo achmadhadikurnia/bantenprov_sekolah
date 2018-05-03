@@ -95,10 +95,6 @@ class SekolahController extends Controller
     {
         $sekolahs = $this->sekolah->with(['jenis_sekolah', 'province', 'city', 'district', 'village', 'master_zona', 'user'])->get();
 
-        foreach($sekolahs as $sekolah){
-            array_set($sekolah, 'label', $sekolah->nama);
-        }
-
         $response['sekolahs']   = $sekolahs;
         $response['error']      = false;
         $response['message']    = 'Success';
@@ -116,52 +112,26 @@ class SekolahController extends Controller
     {
         $user_id        = isset(Auth::User()->id) ? Auth::User()->id : null;
         $sekolah        = $this->sekolah->getAttributes();
-        $jenis_sekolahs = $this->jenis_sekolah->getAttributes();
         $provinces      = $this->province->getAttributes();
         $cities         = $this->city->getAttributes();
         $districts      = $this->district->getAttributes();
         $villages       = $this->village->getAttributes();
-        $master_zonas   = $this->master_zona->all();
         $users          = $this->user->getAttributes();
         $users_special  = $this->user->all();
         $users_standar  = $this->user->findOrFail($user_id);
         $current_user   = Auth::User();
 
-        foreach($jenis_sekolahs as $jenis_sekolah){
-            array_set($jenis_sekolah, 'label', $jenis_sekolah->jenis_sekolah);
-        }
-
-        foreach($provinces as $province){
-            array_set($province, 'label', $province->name);
-        }
-
-        foreach($cities as $city){
-            array_set($city, 'label', $city->name);
-        }
-
-        foreach($districts as $district){
-            array_set($district, 'label', $district->name);
-        }
-
-        foreach($villages as $village){
-            array_set($village, 'label', $village->name);
-        }
-
-        foreach($master_zonas as $master_zona){
-            array_set($master_zona, 'label', $master_zona->label);
-        }
-
         $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
 
-        if($role_check){
+        if ($role_check) {
             $user_special = true;
 
-            foreach($users_special as $user){
+            foreach ($users_special as $user) {
                 array_set($user, 'label', $user->name);
             }
 
             $users = $users_special;
-        }else{
+        } else {
             $user_special = false;
 
             array_set($users_standar, 'label', $users_standar->name);
@@ -172,12 +142,10 @@ class SekolahController extends Controller
         array_set($current_user, 'label', $current_user->name);
 
         $response['sekolah']        = $sekolah;
-        $response['jenis_sekolahs'] = $jenis_sekolahs;
         $response['provinces']      = $provinces;
         $response['cities']         = $cities;
         $response['districts']      = $districts;
         $response['villages']       = $villages;
-        $response['master_zonas']   = $master_zonas;
         $response['users']          = $users;
         $response['user_special']   = $user_special;
         $response['current_user']   = $current_user;
@@ -219,6 +187,7 @@ class SekolahController extends Controller
             $error      = true;
             $message    = $validator->errors()->first();
         } else {
+            $sekolah->id                = $request->input('npsn');
             $sekolah->nama              = $request->input('nama');
             $sekolah->npsn              = $request->input('npsn');
             $sekolah->jenis_sekolah_id  = $request->input('jenis_sekolah_id');
@@ -272,26 +241,68 @@ class SekolahController extends Controller
      */
     public function edit($id)
     {
-        $sekolah = $this->sekolah->with(['jenis_sekolah', 'province', 'city', 'district', 'village', 'master_zona', 'user'])->findOrFail($id);
-        
-        $response['sekolah']['province'] = array_add($sekolah->province, 'label', $sekolah->province->name);
+        $user_id        = isset(Auth::User()->id) ? Auth::User()->id : null;
+        $sekolah        = $this->sekolah->with(['jenis_sekolah', 'province', 'city', 'district', 'village', 'master_zona', 'user'])->findOrFail($id);
+        $provinces      = $this->province->getAttributes();
+        $cities         = $this->city->getAttributes();
+        $districts      = $this->district->getAttributes();
+        $villages       = $this->village->getAttributes();
+        $users          = $this->user->getAttributes();
+        $users_special  = $this->user->all();
+        $users_standar  = $this->user->findOrFail($user_id);
+        $current_user   = Auth::User();
 
-        $response['sekolah']['city'] = array_add($sekolah->city, 'label', $sekolah->city->name);
+        if ($sekolah->province !== null) {
+            array_set($sekolah->province, 'label', $sekolah->province->name);
+        }
 
-        $response['sekolah']['district'] = array_add($sekolah->district, 'label', $sekolah->district->name);
+        if ($sekolah->city !== null) {
+            array_set($sekolah->city, 'label', $sekolah->city->name);
+        }
 
-        $response['sekolah']['village'] = array_add($sekolah->village, 'label', $sekolah->village->name);
+        if ($sekolah->district !== null) {
+            array_set($sekolah->district, 'label', $sekolah->district->name);
+        }
 
-        $response['sekolah']['jenis_sekolah'] = array_add($sekolah->jenis_sekolah, 'label', $sekolah->jenis_sekolah->jenis_sekolah);
+        if ($sekolah->village !== null) {
+            array_set($sekolah->village, 'label', $sekolah->village->name);
+        }
 
+        $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
 
-        
+        if ($sekolah->user !== null) {
+            array_set($sekolah->user, 'label', $sekolah->user->name);
+        }
 
-        $response['sekolah']    = $sekolah;
-        $response['error']      = false;
-        $response['message']    = 'Success';
-        $response['status']     = true;
+        if ($role_check) {
+            $user_special = true;
 
+            foreach($users_special as $user){
+                array_set($user, 'label', $user->name);
+            }
+
+            $users = $users_special;
+        } else {
+            $user_special = false;
+
+            array_set($users_standar, 'label', $users_standar->name);
+
+            $users = $users_standar;
+        }
+
+        array_set($current_user, 'label', $current_user->name);
+
+        $response['sekolah']        = $sekolah;
+        $response['provinces']      = $provinces;
+        $response['cities']         = $cities;
+        $response['districts']      = $districts;
+        $response['villages']       = $villages;
+        $response['users']          = $users;
+        $response['user_special']   = $user_special;
+        $response['current_user']   = $current_user;
+        $response['error']          = false;
+        $response['message']        = 'Success';
+        $response['status']         = true;
 
         return response()->json($response);
     }
@@ -328,6 +339,7 @@ class SekolahController extends Controller
             $error      = true;
             $message    = $validator->errors()->first();
         } else {
+            $sekolah->id                = $request->input('npsn');
             $sekolah->nama              = $request->input('nama');
             $sekolah->npsn              = $request->input('npsn');
             $sekolah->jenis_sekolah_id  = $request->input('jenis_sekolah_id');

@@ -3,13 +3,20 @@
     <div class="card-header">
       <i class="fa fa-table" aria-hidden="true"></i> {{ title }}
 
-      <ul class="nav nav-pills card-header-pills pull-right">
-        <li class="nav-item">
-          <button class="btn btn-primary btn-sm" role="button" @click="back">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i>
-          </button>
-        </li>
-      </ul>
+      <div class="btn-group pull-right" role="group" style="display:flex;">
+        <button class="btn btn-primary btn-sm" role="button" @click="createRow">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-warning btn-sm" role="button" @click="editRow">
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-danger btn-sm" role="button" @click="deleteRow">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-primary btn-sm" role="button" @click="back">
+          <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </button>
+      </div>
     </div>
 
     <div class="card-body">
@@ -51,11 +58,11 @@ export default {
       state: {},
       title: 'View Prodi Sekolah',
       model: {
-        sekolah_id          : "",
-        program_keahlian_id : "",
-        kuota_siswa         : "",
-        keterangan          : "",
-        user_id             : "",
+        sekolah_id          : '',
+        program_keahlian_id : '',
+        kuota_siswa         : '',
+        keterangan          : '',
+        user_id             : '',
 
         sekolah             : [],
         program_keahlian    : [],
@@ -82,15 +89,24 @@ export default {
           this.model.user                 = response.data.prodi_sekolah.user;
 
           if (this.model.sekolah === null) {
-            this.model.sekolah = {"id":this.model.sekolah_id, "nama":""};
+            this.model.sekolah = {
+              'id'    :this.model.sekolah_id,
+              'nama'  :''
+            };
           }
 
           if (this.model.program_keahlian === null) {
-            this.model.program_keahlian = {"id":this.model.program_keahlian_id, "label":""};
+            this.model.program_keahlian = {
+              'id'    :this.model.program_keahlian_id,
+              'label' :''
+            };
           }
 
           if (this.model.user === null) {
-            this.model.user = {"id":this.model.user_id, "name":""};
+            this.model.user = {
+              'id'    :this.model.user_id,
+              'name'  :''
+            };
           }
         } else {
           swal(
@@ -113,6 +129,64 @@ export default {
       });
   },
   methods: {
+    createRow() {
+      window.location = '#/admin/prodi-sekolah/create';
+    },
+    editRow() {
+      window.location = '#/admin/prodi-sekolah/'+this.$route.params.id+'/edit';
+    },
+    deleteRow() {
+      let app = this;
+
+      swal({
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value) {
+          axios.delete('/api/prodi-sekolah/'+this.$route.params.id)
+            .then(function(response) {
+              if (response.data.status == true) {
+                app.back();
+
+                swal(
+                  'Deleted',
+                  'Yeah!!! Your data has been deleted.',
+                  'success'
+                );
+              } else {
+                swal(
+                  'Failed',
+                  'Oops... Failed to delete data.',
+                  'error'
+                );
+              }
+            })
+            .catch(function(response) {
+              swal(
+                'Not Found',
+                'Oops... Your page is not found.',
+                'error'
+              );
+            });
+        } else if (result.dismiss === swal.DismissReason.cancel) {
+          swal(
+            'Cancelled',
+            'Your data is safe.',
+            'error'
+          );
+        }
+      });
+    },
     back() {
       window.location = '#/admin/prodi-sekolah';
     }
