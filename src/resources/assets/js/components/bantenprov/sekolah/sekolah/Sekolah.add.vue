@@ -230,30 +230,35 @@ export default {
       state: {},
       title: 'Add Sekolah',
       model: {
-        nama              : '',
-        npsn              : '',
-        jenis_sekolah_id  : '',
-        alamat            : '',
-        // logo              : '',
-        // foto_gedung       : '',
-        province_id       : '',
-        city_id           : '',
-        district_id       : '',
-        village_id        : '',
-        no_telp           : '',
-        email             : '',
-        kode_zona         : '',
-        user_id           : '',
-        created_at        : '',
-        updated_at        : '',
+        nama                : '',
+        npsn                : '',
+        jenis_sekolah_id    : '',
+        alamat              : '',
+        logo                : '',
+        foto_gedung         : '',
+        province_id         : '',
+        city_id             : '',
+        district_id         : '',
+        village_id          : '',
+        no_telp             : '',
+        email               : '',
+        kode_zona           : '',
+        user_id             : '',
+        created_at          : '',
+        updated_at          : '',
 
-        jenis_sekolah     : '',
-        province          : '',
-        city              : '',
-        district          : '',
-        village           : '',
-        master_zona       : '',
-        user              : '',
+        jenis_sekolah         : '',
+        province              : '',
+        city                  : '',
+        district              : '',
+        village               : '',
+        master_zona           : '',
+        user                  : '',
+
+        province_id_onchange  : 0,
+        city_id_onchange      : 0,
+        district_id_onchange  : 0,
+        village_id_onchange   : 0,
       },
       jenis_sekolah : [],
       province      : [],
@@ -431,10 +436,14 @@ export default {
       }
     },
     changeProvince() {
-      if (typeof this.model.province.id === 'undefined') {
+      if (typeof(this.model.province.id) === 'undefined') {
         this.model.city = '';
       } else {
-        this.model.city = '';
+        if (this.model.province_id_onchange == 0) {
+          this.model.province_id_onchange++;
+        } else {
+          this.model.city = '';
+        }
 
         axios.get('api/wilayah-indonesia/city/get/by-province/'+this.model.province.id)
           .then(response => {
@@ -445,10 +454,14 @@ export default {
       }
     },
     changeCity() {
-      if (typeof this.model.city.id === 'undefined') {
+      if (typeof(this.model.city.id) === 'undefined') {
         this.model.district = '';
       } else {
-        this.model.district = '';
+        if (this.model.district_id_onchange == 0) {
+          this.model.district_id_onchange++;
+        } else {
+          this.model.district = '';
+        }
 
         axios.get('api/wilayah-indonesia/district/get/by-city/'+this.model.city.id)
           .then(response => {
@@ -459,10 +472,14 @@ export default {
       }
     },
     changeDistrict() {
-      if (typeof this.model.district.id === 'undefined') {
+      if (typeof(this.model.district.id) === 'undefined') {
         this.model.village = '';
       } else {
-        this.model.village = '';
+        if (this.model.village_id_onchange == 0) {
+          this.model.village_id_onchange++;
+        } else {
+          this.model.village = '';
+        }
 
         axios.get('api/wilayah-indonesia/village/get/by-district/'+this.model.district.id)
           .then(response => {
@@ -478,8 +495,8 @@ export default {
         npsn              : '',
         jenis_sekolah_id  : '',
         alamat            : '',
-        // logo              : '',
-        // foto_gedung       : '',
+        logo              : '',
+        foto_gedung       : '',
         province_id       : '',
         city_id           : '',
         district_id       : '',
