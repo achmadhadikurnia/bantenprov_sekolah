@@ -70,13 +70,13 @@ $ composer dump-autoload
 
 #### Lakukan seeding :
 
-Seeding semua seeder
+- Seeding semua seeder
 
 ```bash
 $ php artisan db:seed --class=BantenprovSekolahSeeder
 ```
 
-atau seeding secara individual
+- Seeding secara individual
 
 ```bash
 $ php artisan db:seed --class=BantenprovSekolahSeederJenisSekolah
