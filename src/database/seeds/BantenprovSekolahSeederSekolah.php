@@ -127,7 +127,6 @@ class BantenprovSekolahSeederSekolah extends Seeder
     /* function read CSV file */
     protected function readCSV()
     {
-        /* Silahkan di rubah sesuai struktur file csv */
         $file = fopen(database_path("seeds/".$this->fileName), "r");
         $all_data = array();
         $row = 1;

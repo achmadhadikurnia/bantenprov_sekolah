@@ -41,24 +41,24 @@ class BantenprovSekolahSeederJenisSekolah extends Seeder
     {
         /* silahkan di rubah sesuai kebutuhan */
         foreach($this->readCSV() as $data){
-        	$this->model->create([
+
+            $this->model->create([
             	'id' => $data['id'],
             	'jenis_sekolah' => $data['jenis_sekolah'],
 				'user_id' => $data['user_id'],
+            ]);
 
-        	]);
-        }
+            if($this->textInfo){
+                echo "============[DATA]============\n";
+                $this->orangeText('id : ').$this->greenText($data['id']);
+                echo"\n";
+                $this->orangeText('jenis_sekolah : ').$this->greenText($data['jenis_sekolah']);
+                echo"\n";
+                $this->orangeText('user_id : ').$this->greenText($data['user_id']);
+                echo"\n";
+                echo "============[DATA]============\n\n";
+            }
 
-        if($this->textInfo){
-            echo "============[DATA]============\n";
-            $this->orangeText('id : ').$this->greenText($data['id']);
-			echo"\n";
-            $this->orangeText('jenis_sekolah : ').$this->greenText($data['jenis_sekolah']);
-			echo"\n";
-			$this->orangeText('user_id : ').$this->greenText($data['user_id']);
-			echo"\n";
-
-            echo "============[DATA]============\n\n";
         }
 
         $this->greenText('[ SEEDER DONE ]');
