@@ -133,25 +133,24 @@ class BantenprovSekolahSeederSekolah extends Seeder
         $row = 1;
         while(($data = fgetcsv($file, 1000, ",")) !== FALSE){
             $all_data[] = [
-                            'id'                => $data[0],
-                            'nama'              => $data[1],
-                            'npsn'              => $data[2],
-                            'jenis_sekolah_id'  => $data[3],
-                            'alamat'            => $data[4],
-                            'logo'              => $data[5],
-                            'foto_gedung'       => $data[6],
-                            'province_id'       => $data[7],
-                            'city_id'           => $data[8],
-                            'district_id'       => $data[9],
-                            'village_id'        => $data[10],
-                            'no_telp'           => $data[11],
-                            'email'             => $data[12],
-                            'kode_zona'         => $data[13],
-                            'user_id'           => $data[14],
-                        ];
+                'id'                => $data[0],
+                'nama'              => $data[1],
+                'npsn'              => $data[2],
+                'jenis_sekolah_id'  => $data[3],
+                'alamat'            => $data[4],
+                'logo'              => $data[5],
+                'foto_gedung'       => $data[6],
+                'province_id'       => $data[7],
+                'city_id'           => $data[8],
+                'district_id'       => $data[9],
+                'village_id'        => $data[10],
+                'no_telp'           => $data[11],
+                'email'             => $data[12],
+                'kode_zona'         => $data[13],
+                'user_id'           => $data[14],
+            ];
         }
         fclose($file);
-
         return  $all_data;
     }
 }
