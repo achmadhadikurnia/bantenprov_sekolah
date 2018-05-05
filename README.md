@@ -129,7 +129,15 @@ $ php artisan db:seed --class=BantenprovSekolahSeederProdiSekolah
             link: '/admin/prodi-sekolah',
             icon: 'fa fa-angle-double-right'
         },
+        // Admin Sekolah
+        {
+          name: 'Admin Sekolah',
+          link: '/admin/admin-sekolah',
+          icon: 'fa fa-angle-double-right'
+        },
+
         //...
+
     ]
 },
 ```
@@ -349,7 +357,55 @@ Vue.component('prodi-sekolah-pie-03', ProdiSekolahPie03);
                 title: "Edit Prodi Sekolah"
             }
         },
+
+        //Admin sekolah
+        {
+        path: '/admin/admin-sekolah',
+        components: {
+            main: resolve => require(['~/components/bantenprov/sekolah/admin-sekolah/AdminSekolah.index.vue'], resolve),
+            navbar: resolve => require(['~/components/Navbar.vue'], resolve),
+            sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+        },
+        meta: {
+            title: "admin Sekolah"
+        }
+        },
+        {
+        path: '/admin/admin-sekolah/create',
+        components: {
+            main: resolve => require(['~/components/bantenprov/sekolah/admin-sekolah/AdminSekolah.add.vue'], resolve),
+            navbar: resolve => require(['~/components/Navbar.vue'], resolve),
+            sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+        },
+        meta: {
+            title: "Add admin Sekolah"
+        }
+        },
+        {
+        path: '/admin/admin-sekolah/:id',
+        components: {
+            main: resolve => require(['~/components/bantenprov/sekolah/admin-sekolah/AdminSekolah.show.vue'], resolve),
+            navbar: resolve => require(['~/components/Navbar.vue'], resolve),
+            sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+        },
+        meta: {
+            title: "View admin Sekolah"
+        }
+        },
+        {
+        path: '/admin/admin-sekolah/:id/edit',
+        components: {
+            main: resolve => require(['~/components/bantenprov/sekolah/admin-sekolah/AdminSekolah.edit.vue'], resolve),
+            navbar: resolve => require(['~/components/Navbar.vue'], resolve),
+            sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+        },
+        meta: {
+            title: "Edit admin Sekolah"
+        }
+        },
+
         //...
+        
     ]
 },
 ```
