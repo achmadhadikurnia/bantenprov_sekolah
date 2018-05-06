@@ -223,7 +223,12 @@ class AdminSekolahController extends Controller
      */
     public function show($id)
     {
-        $admin_sekolah = $this->admin_sekolah->with(['sekolah', 'admin_sekolah', 'user'])->findOrFail($id);
+        if($this->checkRole(['superadministrator'])){
+            $admin_sekolah = $this->admin_sekolah->with(['sekolah', 'admin_sekolah', 'user'])->findOrFail($id);
+        }else{
+            $admin_sekolah = $this->admin_sekolah->where('admin_sekolah_id', Auth::user()->id)->with(['sekolah', 'admin_sekolah', 'user'])->findOrFail($id);
+        }
+
 
         $response['admin_sekolah']  = $admin_sekolah;
         $response['error']          = false;
@@ -241,8 +246,15 @@ class AdminSekolahController extends Controller
      */
     public function edit($id)
     {
-        $user_id            = isset(Auth::User()->id) ? Auth::User()->id : null;
-        $admin_sekolah      = $this->admin_sekolah->with(['sekolah', 'admin_sekolah', 'user'])->findOrFail($id);
+        $user_id = isset(Auth::User()->id) ? Auth::User()->id : null;
+
+        if($this->checkRole(['superadministrator'])){
+            $admin_sekolah = $this->admin_sekolah->with(['sekolah', 'admin_sekolah', 'user'])->findOrFail($id);
+        }else{
+            $admin_sekolah = $this->admin_sekolah->where('admin_sekolah_id', Auth::user()->id)->with(['sekolah', 'admin_sekolah', 'user'])->findOrFail($id);
+        }
+
+
         $users              = $this->user->getAttributes();
         $users_special      = $this->user->all();
         $users_standar      = $this->user->findOrFail($user_id);
