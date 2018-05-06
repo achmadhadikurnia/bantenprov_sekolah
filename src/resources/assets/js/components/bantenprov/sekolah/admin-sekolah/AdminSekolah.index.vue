@@ -93,12 +93,6 @@ export default {
           titleClass: 'center aligned',
           dataClass: 'right aligned'
         },
-        /*{
-          name: 'sekolah_id',
-          title: 'NPSN',
-          sortField: 'sekolah_id',
-          titleClass: 'center aligned'
-        },*/
         {
           name: 'sekolah.nama',
           title: 'Nama Sekolah',
@@ -113,7 +107,7 @@ export default {
         },
         {
           name: 'user.name',
-          title: 'Username',
+          title: 'Created by',
           sortField: 'user_id',
           titleClass: 'center aligned'
         },
