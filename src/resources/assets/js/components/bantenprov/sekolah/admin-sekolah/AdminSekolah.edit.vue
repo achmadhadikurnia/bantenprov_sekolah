@@ -25,7 +25,7 @@
           <div class="col-md">
             <validate tag="div">
               <label for="sekolah_id">Sekolah</label>
-              <v-select name="sekolah_id" v-model="model.sekolah" :options="sekolah" placeholder="Sekolah" required autofocus disabled></v-select>
+              <v-select name="sekolah_id" v-model="model.sekolah" :options="sekolah" placeholder="Sekolah" required autofocus></v-select>
 
               <field-messages name="sekolah_id" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
@@ -49,21 +49,6 @@
           </div>
         </div>
 
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <validate tag="div">
-              <label for="user_id">Username</label>
-              <v-select name="user_id" v-model="model.user" :options="user" placeholder="Username" required></v-select>
-
-              <field-messages name="user_id" show="$invalid && $submitted" class="text-danger">
-                <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">User is a required field</small>
-              </field-messages>
-            </validate>
-          </div>
-        </div>
-
         <div class="form-row mt-4">
           <div class="col-md">
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -82,7 +67,7 @@ export default {
   data() {
     return {
       state: {},
-      title: 'Edit Prodi Sekolah',
+      title: 'Edit Admin Sekolah',
       model: {
         sekolah_id          : '',
         admin_sekolah_id    : '',
