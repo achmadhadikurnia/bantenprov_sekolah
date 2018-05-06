@@ -47,21 +47,47 @@ class AdminSekolahController extends Controller
      */
     public function index(Request $request)
     {
+        $admin_sekolah = $this->admin_sekolah->where('admin_sekolah_id', Auth::user()->id)->first();
+
+        if(is_null($admin_sekolah) && $this->checkRole(['superadministrator']) === false){
+            $response = [];
+            return response()->json($response)
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', 'GET');
+        }
+
         if (request()->has('sort')) {
             list($sortCol, $sortDir) = explode('|', request()->sort);
 
-            $query = $this->admin_sekolah->orderBy($sortCol, $sortDir);
+            if($this->checkRole(['superadministrator'])){
+                $query = $this->admin_sekolah->orderBy($sortCol, $sortDir);
+            }else{
+                $query = $this->admin_sekolah->where('sekolah_id', $admin_sekolah->sekolah_id)->orderBy($sortCol, $sortDir);
+            }
         } else {
-            $query = $this->admin_sekolah->orderBy('id', 'asc');
+            if($this->checkRole(['superadministrator'])){
+                $query = $this->admin_sekolah->orderBy('id', 'asc');
+            }else{
+                $query = $this->admin_sekolah->where('admin_sekolah_id', $admin_sekolah->sekolah_id)->orderBy('id', 'asc');
+            }
         }
 
         if ($request->exists('filter')) {
-            $query->where(function($q) use($request) {
-                $value = "%{$request->filter}%";
+            if($this->checkRole(['superadministrator'])){
+                $query->where(function($q) use($request) {
+                    $value = "%{$request->filter}%";
 
-                $q->where('sekolah_id', 'like', $value)
-                    ->orWhere('admin_sekolah_id', 'like', $value);
-            });
+                    $q->where('sekolah_id', 'like', $value)
+                        ->orWhere('admin_sekolah_id', 'like', $value);
+                });
+            }else{
+                $query->where(function($q) use($request, $admin_sekolah) {
+                    $value = "%{$request->filter}%";
+
+                    $q->where('sekolah_id', $admin_sekolah->sekolah_id)->where('sekolah_id', 'like', $value);
+                });
+            }
+
         }
 
         $perPage = request()->has('per_page') ? (int) request()->per_page : null;
