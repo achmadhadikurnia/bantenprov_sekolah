@@ -8,9 +8,8 @@ use Illuminate\Http\Request;
 use Bantenprov\Sekolah\Facades\SekolahFacade;
 
 /* Models */
-use Bantenprov\Sekolah\Models\Bantenprov\Sekolah\ProdiSekolah;
+use Bantenprov\Sekolah\Models\Bantenprov\Sekolah\AdminSekolah;
 use Bantenprov\Sekolah\Models\Bantenprov\Sekolah\Sekolah;
-use Bantenprov\ProgramKeahlian\Models\Bantenprov\ProgramKeahlian\ProgramKeahlian;
 use App\User;
 
 /* Etc */
@@ -23,11 +22,10 @@ use Auth;
  * @package Bantenprov\Sekolah
  * @author  bantenprov <developer.bantenprov@gmail.com>
  */
-class ProdiSekolahController extends Controller
+class AdminSekolahController extends Controller
 {
-    protected $prodi_sekolah;
+    protected $admin_sekolah;
     protected $sekolah;
-    protected $program_keahlian;
     protected $user;
 
     /**
@@ -37,9 +35,8 @@ class ProdiSekolahController extends Controller
      */
     public function __construct()
     {
-        $this->prodi_sekolah    = new ProdiSekolah;
+        $this->admin_sekolah    = new AdminSekolah;
         $this->sekolah          = new Sekolah;
-        $this->program_keahlian = new ProgramKeahlian;
         $this->user             = new User;
     }
 
@@ -53,23 +50,23 @@ class ProdiSekolahController extends Controller
         if (request()->has('sort')) {
             list($sortCol, $sortDir) = explode('|', request()->sort);
 
-            $query = $this->prodi_sekolah->orderBy($sortCol, $sortDir);
+            $query = $this->admin_sekolah->orderBy($sortCol, $sortDir);
         } else {
-            $query = $this->prodi_sekolah->orderBy('id', 'asc');
+            $query = $this->admin_sekolah->orderBy('id', 'asc');
         }
 
         if ($request->exists('filter')) {
             $query->where(function($q) use($request) {
                 $value = "%{$request->filter}%";
 
-                $q->where('keterangan', 'like', $value)
-                    ->orWhere('kuota_siswa', 'like', $value);
+                $q->where('sekolah_id', 'like', $value)
+                    ->orWhere('admin_sekolah_id', 'like', $value);
             });
         }
 
         $perPage = request()->has('per_page') ? (int) request()->per_page : null;
 
-        $response = $query->with(['sekolah', 'program_keahlian', 'user'])->paginate($perPage);
+        $response = $query->with(['admin_sekolah', 'sekolah', 'user'])->paginate($perPage);
 
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
@@ -83,9 +80,9 @@ class ProdiSekolahController extends Controller
      */
     public function get()
     {
-        $prodi_sekolahs = $this->prodi_sekolah->with(['sekolah', 'program_keahlian', 'user'])->get();
+        $admin_sekolahs = $this->admin_sekolah->with(['sekolah', 'user'])->get();
 
-        $response['prodi_sekolahs'] = $prodi_sekolahs;
+        $response['admin_sekolahs'] = $admin_sekolahs;
         $response['error']          = false;
         $response['message']        = 'Success';
         $response['status']         = true;
@@ -100,9 +97,9 @@ class ProdiSekolahController extends Controller
      */
     public function getBySekolah($id)
     {
-        $prodi_sekolahs = $this->prodi_sekolah->where('sekolah_id', '=', $id)->with(['sekolah', 'program_keahlian', 'user'])->get();
+        $admin_sekolahs = $this->admin_sekolah->where('sekolah_id', '=', $id)->with(['sekolah', 'user'])->get();
 
-        $response['prodi_sekolahs'] = $prodi_sekolahs;
+        $response['admin_sekolahs'] = $admin_sekolahs;
         $response['message']        = 'Success';
         $response['error']          = false;
         $response['status']         = true;
@@ -118,16 +115,16 @@ class ProdiSekolahController extends Controller
     public function create()
     {
         $user_id            = isset(Auth::User()->id) ? Auth::User()->id : null;
-        $prodi_sekolah      = $this->prodi_sekolah->getAttributes();
-        $program_keahlians  = $this->program_keahlian->all();
+        $admin_sekolah      = $this->admin_sekolah->getAttributes();
+        //$program_keahlians  = $this->program_keahlian->all();
         $users              = $this->user->getAttributes();
         $users_special      = $this->user->all();
         $users_standar      = $this->user->findOrFail($user_id);
         $current_user       = Auth::User();
 
-        foreach ($program_keahlians as $program_keahlian) {
+        /*foreach ($program_keahlians as $program_keahlian) {
             array_set($program_keahlian, 'label', $program_keahlian->label);
-        }
+        }*/
 
         $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
 
@@ -149,8 +146,8 @@ class ProdiSekolahController extends Controller
 
         array_set($current_user, 'label', $current_user->name);
 
-        $response['prodi_sekolah']      = $prodi_sekolah;
-        $response['program_keahlians']  = $program_keahlians;
+        $response['admin_sekolah']      = $admin_sekolah;
+        //$response['program_keahlians']  = $program_keahlians;
         $response['users']              = $users;
         $response['user_special']       = $user_special;
         $response['current_user']       = $current_user;
@@ -169,13 +166,11 @@ class ProdiSekolahController extends Controller
      */
     public function store(Request $request)
     {
-        $prodi_sekolah = $this->prodi_sekolah;
+        $admin_sekolah = $this->admin_sekolah;
 
         $validator = Validator::make($request->all(), [
             'sekolah_id'            => "required|exists:{$this->sekolah->getTable()},id",
-            'program_keahlian_id'   => "required|exists:{$this->program_keahlian->getTable()},id|unique:{$this->prodi_sekolah->getTable()},program_keahlian_id,NULL,id,sekolah_id,{$request->input('sekolah_id')},deleted_at,NULL",
-            'kuota_siswa'           => 'required|numeric|min:0|max:100000',
-            'keterangan'            => 'max:255',
+            'admin_sekolah_id'      => "required|unique:{$this->admin_sekolah->getTable()},admin_sekolah_id,NULL,id,deleted_at,NULL",
             'user_id'               => "required|exists:{$this->user->getTable()},id",
         ]);
 
@@ -183,18 +178,16 @@ class ProdiSekolahController extends Controller
             $error      = true;
             $message    = $validator->errors()->first();
         } else {
-            $prodi_sekolah->sekolah_id          = $request->input('sekolah_id');
-            $prodi_sekolah->program_keahlian_id = $request->input('program_keahlian_id');
-            $prodi_sekolah->kuota_siswa         = $request->input('kuota_siswa');
-            $prodi_sekolah->keterangan          = $request->input('keterangan');
-            $prodi_sekolah->user_id             = $request->input('user_id');
-            $prodi_sekolah->save();
+            $admin_sekolah->sekolah_id          = $request->input('sekolah_id');
+            $admin_sekolah->admin_sekolah_id    = $request->input('admin_sekolah_id');
+            $admin_sekolah->user_id             = $request->input('user_id');
+            $admin_sekolah->save();
 
             $error      = false;
             $message    = 'Success';
         }
 
-        $response['prodi_sekolah']  = $prodi_sekolah;
+        $response['admin_sekolah']  = $admin_sekolah;
         $response['error']          = $error;
         $response['message']        = $message;
         $response['status']         = true;
@@ -210,9 +203,9 @@ class ProdiSekolahController extends Controller
      */
     public function show($id)
     {
-        $prodi_sekolah = $this->prodi_sekolah->with(['sekolah', 'program_keahlian', 'user'])->findOrFail($id);
+        $admin_sekolah = $this->admin_sekolah->with(['sekolah', 'admin_sekolah', 'user'])->findOrFail($id);
 
-        $response['prodi_sekolah']  = $prodi_sekolah;
+        $response['admin_sekolah']  = $admin_sekolah;
         $response['error']          = false;
         $response['message']        = 'Success';
         $response['status']         = true;
@@ -229,21 +222,21 @@ class ProdiSekolahController extends Controller
     public function edit($id)
     {
         $user_id            = isset(Auth::User()->id) ? Auth::User()->id : null;
-        $prodi_sekolah      = $this->prodi_sekolah->with(['sekolah', 'program_keahlian', 'user'])->findOrFail($id);
-        $program_keahlians  = $this->program_keahlian->all();
+        $admin_sekolah      = $this->admin_sekolah->with(['sekolah', 'admin_sekolah', 'user'])->findOrFail($id);
         $users              = $this->user->getAttributes();
         $users_special      = $this->user->all();
         $users_standar      = $this->user->findOrFail($user_id);
         $current_user       = Auth::User();
 
-        foreach ($program_keahlians as $program_keahlian) {
-            array_set($program_keahlian, 'label', $program_keahlian->label);
-        }
 
         $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
 
-        if ($prodi_sekolah->user !== null) {
-            array_set($prodi_sekolah->user, 'label', $prodi_sekolah->user->name);
+        if ($admin_sekolah->user !== null) {
+            array_set($admin_sekolah->user, 'label', $admin_sekolah->user->name);
+        }
+
+        if ($admin_sekolah->admin_sekolah !== null) {
+            array_set($admin_sekolah->admin_sekolah, 'label', $admin_sekolah->admin_sekolah->name);
         }
 
         if ($role_check) {
@@ -264,8 +257,7 @@ class ProdiSekolahController extends Controller
 
         array_set($current_user, 'label', $current_user->name);
 
-        $response['prodi_sekolah']      = $prodi_sekolah;
-        $response['program_keahlians']  = $program_keahlians;
+        $response['admin_sekolah']      = $admin_sekolah;
         $response['users']              = $users;
         $response['user_special']       = $user_special;
         $response['current_user']       = $current_user;
@@ -285,13 +277,11 @@ class ProdiSekolahController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $prodi_sekolah = $this->prodi_sekolah->with(['sekolah', 'program_keahlian', 'user'])->findOrFail($id);
+        $admin_sekolah = $this->admin_sekolah->with(['sekolah', 'admin_sekolah', 'user'])->findOrFail($id);
 
         $validator = Validator::make($request->all(), [
             'sekolah_id'            => "required|exists:{$this->sekolah->getTable()},id",
-            'program_keahlian_id'   => "required|exists:{$this->program_keahlian->getTable()},id|unique:{$this->prodi_sekolah->getTable()},program_keahlian_id,{$id},id,sekolah_id,{$request->input('sekolah_id')},deleted_at,NULL",
-            'kuota_siswa'           => 'required|numeric|min:0|max:100000',
-            'keterangan'            => 'max:255',
+            'admin_sekolah_id'      => "required|unique:{$this->admin_sekolah->getTable()},admin_sekolah_id,{$id},id,deleted_at,NULL",
             'user_id'               => "required|exists:{$this->user->getTable()},id",
         ]);
 
@@ -299,18 +289,16 @@ class ProdiSekolahController extends Controller
             $error      = true;
             $message    = $validator->errors()->first();
         } else {
-            $prodi_sekolah->sekolah_id          = $request->input('sekolah_id');
-            $prodi_sekolah->program_keahlian_id = $request->input('program_keahlian_id');
-            $prodi_sekolah->kuota_siswa         = $request->input('kuota_siswa');
-            $prodi_sekolah->keterangan          = $request->input('keterangan');
-            $prodi_sekolah->user_id             = $request->input('user_id');
-            $prodi_sekolah->save();
+            $admin_sekolah->sekolah_id          = $request->input('sekolah_id');
+            $admin_sekolah->admin_sekolah_id    = $request->input('admin_sekolah_id');
+            $admin_sekolah->user_id             = $request->input('user_id');
+            $admin_sekolah->save();
 
             $error      = false;
             $message    = 'Success';
         }
 
-        $response['prodi_sekolah']  = $prodi_sekolah;
+        $response['admin_sekolah']  = $admin_sekolah;
         $response['error']          = $error;
         $response['message']        = $message;
         $response['status']         = true;
@@ -326,9 +314,9 @@ class ProdiSekolahController extends Controller
      */
     public function destroy($id)
     {
-        $prodi_sekolah = $this->prodi_sekolah->findOrFail($id);
+        $admin_sekolah = $this->admin_sekolah->findOrFail($id);
 
-        if ($prodi_sekolah->delete()) {
+        if ($admin_sekolah->delete()) {
             $response['message']    = 'Success';
             $response['success']    = true;
             $response['status']     = true;

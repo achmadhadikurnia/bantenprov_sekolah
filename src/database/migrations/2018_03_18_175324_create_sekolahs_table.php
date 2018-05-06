@@ -13,24 +13,21 @@ class CreateSekolahsTable extends Migration
 	public function up()
 	{
 		Schema::create('sekolahs', function(Blueprint $table) {
-			$table->increments('id');
-			$table->integer('user_id');
-			$table->string('label');
+			$table->string('id');
+			$table->string('nama');
 			$table->string('npsn');
-			$table->integer('jenis_sekolah_id');
+			$table->integer('jenis_sekolah_id')->nullable();
 			$table->string('alamat');
-			//$table->integer('kelurahan_id')->unsigned()->index();
-			//$table->integer('kecamatan_id')->unsigned()->index();
-			//$table->integer('kabkota_id')->unsigned()->index();
-			$table->string('logo');
-			$table->string('foto_gedung');
-			$table->string('province_id');
-			$table->string('city_id');
-			$table->string('district_id');
-			$table->string('village_id');
+			$table->string('logo')->nullable();
+			$table->string('foto_gedung')->nullable();
+			$table->string('province_id')->nullable();
+			$table->string('city_id')->nullable();
+			$table->string('district_id')->nullable();
+			$table->string('village_id')->nullable();
 			$table->string('no_telp');
 			$table->string('email');
-			$table->string('zona_id');
+			$table->string('kode_zona')->nullable();
+			$table->integer('user_id')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
 		});

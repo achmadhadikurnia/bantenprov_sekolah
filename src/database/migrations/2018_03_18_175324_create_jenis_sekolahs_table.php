@@ -15,10 +15,10 @@ class CreateJenisSekolahsTable extends Migration
     {
         Schema::create('jenis_sekolahs', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('jenis_sekolah')->unique();
+            $table->string('jenis_sekolah');
             $table->timestamps();
             $table->softDeletes();
-            $table->integer('user_id')->unique();
+            $table->integer('user_id')->nullable();;
         });
     }
 

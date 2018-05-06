@@ -84,8 +84,8 @@ export default {
   data() {
     return {
       loading: true,
-      title: 'Prodi Sekolah',
-      api_url: '/api/prodi-sekolah',
+      title: 'Admin Sekolah',
+      api_url: '/api/admin-sekolah',
       fields: [
         {
           name: '__sequence',
@@ -93,29 +93,28 @@ export default {
           titleClass: 'center aligned',
           dataClass: 'right aligned'
         },
-        {
+        /*{
           name: 'sekolah_id',
           title: 'NPSN',
           sortField: 'sekolah_id',
           titleClass: 'center aligned'
-        },
+        },*/
         {
           name: 'sekolah.nama',
           title: 'Nama Sekolah',
           sortField: 'sekolah_id',
           titleClass: 'center aligned'
         },
-
         {
-          name: 'program_keahlian.label',
-          title: 'Program Keahlian',
-          sortField: 'program_keahlian_id',
+          name: 'admin_sekolah.name',
+          title: 'Admin Sekolah',
+          sortField: 'admin_sekolah_id',
           titleClass: 'center aligned'
         },
         {
-          name: 'kuota_siswa',
-          title: 'Kuota Siswa',
-          sortField: 'kuota_siswa',
+          name: 'user.name',
+          title: 'Username',
+          sortField: 'user_id',
           titleClass: 'center aligned'
         },
         {
@@ -127,7 +126,7 @@ export default {
 
       ],
       sortOrder: [{
-        field: 'kuota_siswa',
+        field: 'sekolah_id',
         direction: 'asc'
       }],
       moreParams: {},
@@ -168,13 +167,13 @@ export default {
       this.loading = false;
     },
     createRow() {
-      window.location = '#/admin/prodi-sekolah/create';
+      window.location = '#/admin/admin-sekolah/create';
     },
     viewRow(rowData) {
-      window.location = '#/admin/prodi-sekolah/' + rowData.id;
+      window.location = '#/admin/admin-sekolah/' + rowData.id;
     },
     editRow(rowData) {
-      window.location = '#/admin/prodi-sekolah/' + rowData.id + '/edit';
+      window.location = '#/admin/admin-sekolah/' + rowData.id + '/edit';
     },
     deleteRow(rowData) {
       let app = this;
@@ -194,7 +193,7 @@ export default {
         reverseButtons: true
       }).then((result) => {
         if (result.value) {
-          axios.delete('/api/prodi-sekolah/'+rowData.id)
+          axios.delete('/api/admin-sekolah/'+rowData.id)
             .then(function(response) {
               if (response.data.status == true) {
                 app.$refs.vuetable.reload();

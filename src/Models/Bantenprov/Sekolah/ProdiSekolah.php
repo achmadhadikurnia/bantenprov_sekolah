@@ -12,30 +12,32 @@ class ProdiSekolah extends Model
     public $timestamps = true;
 
     protected $table = 'prodi_sekolahs';
+    protected $fillable = [
+        'sekolah_id',
+        'program_keahlian_id',
+        'kuota_siswa',
+        'keterangan',
+        'user_id',
+    ];
+    protected $hidden = [
+    ];
+    protected $appends = [
+        'label',
+    ];
     protected $dates = [
         'deleted_at'
     ];
-    protected $fillable = [
-        'sekolah_id',
-        'user_id',
-        'program_keahlian_id',
-        'keterangan',
-        'kuota_siswa',
-    ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [];
-
-        public function user()
+    public function getLabelAttribute()
     {
-        return $this->belongsTo('App\User','user_id');
+        if (isset($this->program_keahlian->label)) {
+            return $this->program_keahlian->label;
+        } else {
+            return 'Keterangan: '.$this->keterangan;
+        }
     }
 
-      public function sekolah()
+    public function sekolah()
     {
         return $this->belongsTo('Bantenprov\Sekolah\Models\Bantenprov\Sekolah\Sekolah','sekolah_id');
     }
@@ -45,4 +47,8 @@ class ProdiSekolah extends Model
         return $this->belongsTo('Bantenprov\ProgramKeahlian\Models\Bantenprov\ProgramKeahlian\ProgramKeahlian','program_keahlian_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo('App\User','user_id');
+    }
 }

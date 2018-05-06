@@ -35,6 +35,7 @@ class SekolahServiceProvider extends ServiceProvider
         $this->migrationHandle();
         $this->publicHandle();
         $this->seedHandle();
+        $this->publishHandle();
     }
 
     /**
@@ -73,16 +74,18 @@ class SekolahServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function configHandle()
+    protected function configHandle($publish = '')
     {
-        $packageConfigPath = __DIR__.'/config/config.php';
-        $appConfigPath     = config_path('sekolah.php');
+        $packageConfigPath = __DIR__.'/config';
+        $appConfigPath     = config_path('bantenprov/sekolah');
 
-        $this->mergeConfigFrom($packageConfigPath, 'sekolah');
+        $this->mergeConfigFrom($packageConfigPath.'/sekolah.php', 'sekolah');
+        $this->mergeConfigFrom($packageConfigPath.'/prodi-sekolah.php', 'prodi-sekolah');
 
         $this->publishes([
-            $packageConfigPath => $appConfigPath,
-        ], 'sekolah-config');
+            $packageConfigPath.'/sekolah.php' => $appConfigPath.'/sekolah.php',
+            $packageConfigPath.'/prodi-sekolah.php' => $appConfigPath.'/prodi-sekolah.php',
+        ], $publish ? $publish : 'sekolah-config');
     }
 
     /**
@@ -100,7 +103,7 @@ class SekolahServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function langHandle()
+    protected function langHandle($publish = '')
     {
         $packageTranslationsPath = __DIR__.'/resources/lang';
 
@@ -108,7 +111,7 @@ class SekolahServiceProvider extends ServiceProvider
 
         $this->publishes([
             $packageTranslationsPath => resource_path('lang/vendor/sekolah'),
-        ], 'sekolah-lang');
+        ], $publish ? $publish : 'sekolah-lang');
     }
 
     /**
@@ -116,7 +119,7 @@ class SekolahServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function viewHandle()
+    protected function viewHandle($publish = '')
     {
         $packageViewsPath = __DIR__.'/resources/views';
 
@@ -124,7 +127,7 @@ class SekolahServiceProvider extends ServiceProvider
 
         $this->publishes([
             $packageViewsPath => resource_path('views/vendor/sekolah'),
-        ], 'sekolah-views');
+        ], $publish ? $publish : 'sekolah-views');
     }
 
     /**
@@ -132,13 +135,13 @@ class SekolahServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function assetHandle()
+    protected function assetHandle($publish = '')
     {
         $packageAssetsPath = __DIR__.'/resources/assets';
 
         $this->publishes([
             $packageAssetsPath => resource_path('assets'),
-        ], 'sekolah-assets');
+        ], $publish ? $publish : 'sekolah-assets');
     }
 
     /**
@@ -146,7 +149,7 @@ class SekolahServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function migrationHandle()
+    protected function migrationHandle($publish = '')
     {
         $packageMigrationsPath = __DIR__.'/database/migrations';
 
@@ -154,24 +157,53 @@ class SekolahServiceProvider extends ServiceProvider
 
         $this->publishes([
             $packageMigrationsPath => database_path('migrations')
-        ], 'sekolah-migrations');
+        ], $publish ? $publish : 'sekolah-migrations');
     }
 
-    public function publicHandle()
+    /**
+     * Publishing package's publics (JavaScript, CSS, images...)
+     *
+     * @return void
+     */
+    public function publicHandle($publish = '')
     {
         $packagePublicPath = __DIR__.'/public';
 
         $this->publishes([
             $packagePublicPath => base_path('public')
-        ], 'sekolah-public');
+        ], $publish ? $publish : 'sekolah-public');
     }
 
-    public function seedHandle()
+    /**
+     * Publishing package's seeds
+     *
+     * @return void
+     */
+    public function seedHandle($publish = '')
     {
         $packageSeedPath = __DIR__.'/database/seeds';
 
         $this->publishes([
             $packageSeedPath => base_path('database/seeds')
-        ], 'sekolah-seeds');
+        ], $publish ? $publish : 'sekolah-seeds');
+    }
+
+    /**
+     * Publishing package's all files
+     *
+     * @return void
+     */
+    public function publishHandle()
+    {
+        $publish = 'sekolah-publish';
+
+        $this->routeHandle($publish);
+        $this->configHandle($publish);
+        $this->langHandle($publish);
+        $this->viewHandle($publish);
+        $this->assetHandle($publish);
+        // $this->migrationHandle($publish);
+        $this->publicHandle($publish);
+        $this->seedHandle($publish);
     }
 }

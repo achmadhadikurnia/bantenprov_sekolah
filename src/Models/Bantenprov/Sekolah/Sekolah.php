@@ -12,34 +12,91 @@ class Sekolah extends Model
     public $timestamps = true;
 
     protected $table = 'sekolahs';
-    protected $dates = [
-        'deleted_at'
-    ];
     protected $fillable = [
-        'label',
-        'user_id',
-        'jenis_sekolah_id',
+        'nama',
         'npsn',
+        'jenis_sekolah_id',
         'alamat',
         'logo',
         'foto_gedung',
+        'province_id',
+        'city_id',
+        'district_id',
+        'village_id',
+        'no_telp',
+        'email',
+        'kode_zona',
+        'user_id',
+    ];
+    protected $hidden = [
+    ];
+    protected $appends = [
+        'label',
+        'jalur_umum',
+        'jalur_prestasi',
+        'jumlah_pendaftar',
+    ];
+    protected $dates = [
+        'deleted_at',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [];
-
-        public function user()
+    public function getLabelAttribute()
     {
-        return $this->belongsTo('App\User','user_id');
+        return $this->nama;
     }
 
-       public function jenis_sekolah()
+    public function getJalurUmumAttribute()
     {
-        return $this->belongsTo('Bantenprov\Sekolah\Models\Bantenprov\Sekolah\JenisSekolah','jenis_sekolah_id');
+        return $this->siswas->whereIn('kegiatan_id', [11,21])->count();
     }
 
+    public function getJalurPrestasiAttribute()
+    {
+        return $this->siswas->whereIn('kegiatan_id', [12,22])->count();
+    }
+
+    public function getJumlahPendaftarAttribute()
+    {
+        return $this->siswas->count();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
+    public function jenis_sekolah()
+    {
+        return $this->belongsTo('Bantenprov\Sekolah\Models\Bantenprov\Sekolah\JenisSekolah', 'jenis_sekolah_id');
+    }
+
+    public function province()
+    {
+        return $this->belongsTo('Laravolt\Indonesia\Models\Province', 'province_id');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo('Laravolt\Indonesia\Models\City', 'city_id');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo('Laravolt\Indonesia\Models\District', 'district_id');
+    }
+
+    public function village()
+    {
+        return $this->belongsTo('Laravolt\Indonesia\Models\Village', 'village_id');
+    }
+
+    public function master_zona()
+    {
+        return $this->belongsTo('Bantenprov\Zona\Models\Bantenprov\Zona\MasterZona', 'kode_zona');
+    }
+
+    public function siswas()
+    {
+        return $this->hasMany('Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa', 'sekolah_id');
+    }
 }

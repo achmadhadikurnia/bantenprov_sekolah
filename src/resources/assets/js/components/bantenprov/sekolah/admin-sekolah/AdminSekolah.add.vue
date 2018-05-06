@@ -31,26 +31,12 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <label for="program_keahlian_id">Program Keahlian</label>
-              <v-select name="program_keahlian_id" v-model="model.program_keahlian" :options="program_keahlian" placeholder="Program Keahlian" required></v-select>
+              <label for="admin_sekolah_id">Admin Sekolah</label>
+              <v-select name="admin_sekolah_id" v-model="model.admin_sekolah" :options="user" placeholder="Admin Sekolah" required></v-select>
 
-              <field-messages name="program_keahlian_id" show="$invalid && $submitted" class="text-danger">
+              <field-messages name="admin_sekolah_id" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Program Keahlian is a required field</small>
-              </field-messages>
-            </validate>
-          </div>
-        </div>
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <validate tag="div">
-              <label for="kuota_siswa">Kuota Siswa</label>
-              <input type="text" class="form-control" name="kuota_siswa" v-model="model.kuota_siswa" placeholder="Kuota Siswa" required>
-
-              <field-messages name="kuota_siswa" show="$invalid && $submitted" class="text-danger">
-                <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Kuota Siswa is a required field</small>
+                <small class="form-text text-danger" slot="required">Admin Sekolah is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -59,30 +45,16 @@
         <!-- <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <label for="keterangan">Keterangan</label>
-              <input type="text" class="form-control" name="keterangan" v-model="model.keterangan" placeholder="Keterangan" required>
-
-              <field-messages name="keterangan" show="$invalid && $submitted" class="text-danger">
-                <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Keterangan is a required field</small>
-              </field-messages>
-            </validate>
-          </div>
-        </div> -->
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <validate tag="div">
               <label for="user_id">Username</label>
               <v-select name="user_id" v-model="model.user" :options="user" placeholder="Username" required></v-select>
-
+        
               <field-messages name="user_id" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
                 <small class="form-text text-danger" slot="required">User is a required field</small>
               </field-messages>
             </validate>
           </div>
-        </div>
+        </div> -->
 
         <div class="form-row mt-4">
           <div class="col-md">
@@ -102,32 +74,29 @@ export default {
   data() {
     return {
       state: {},
-      title: 'Add Prodi Sekolah',
+      title: 'Add Admin Sekolah',
       model: {
         sekolah_id          : '',
-        program_keahlian_id : '',
-        kuota_siswa         : '',
-        keterangan          : '',
+        admin_sekolah_id : '',
         user_id             : '',
         created_at          : '',
         updated_at          : '',
 
         sekolah             : '',
-        program_keahlian    : '',
+        admin_sekolah    : '',
         user                : '',
       },
       sekolah           : [],
-      program_keahlian  : [],
+      admin_sekolah     : [],
       user              : [],
     }
   },
   mounted(){
     let app = this;
 
-    axios.get('api/prodi-sekolah/create')
+    axios.get('api/admin-sekolah/create')
       .then(response => {
         if (response.data.status == true && response.data.error == false) {
-          this.program_keahlian = response.data.program_keahlians;
           this.model.user       = response.data.current_user;
 
           if (response.data.user_special == true) {
@@ -186,10 +155,10 @@ export default {
       if (this.state.$invalid) {
         return;
       } else {
-        axios.post('api/prodi-sekolah', {
+        axios.post('api/admin-sekolah', {
             sekolah_id          : this.model.sekolah.id,
-            program_keahlian_id : this.model.program_keahlian.id,
-            kuota_siswa         : this.model.kuota_siswa,
+            admin_sekolah_id    : this.model.admin_sekolah.id,
+            //kuota_siswa         : this.model.kuota_siswa,
             // keterangan          : this.model.keterangan,
             user_id             : this.model.user.id,
           })
@@ -234,9 +203,7 @@ export default {
     reset() {
       this.model = {
         sekolah_id          : '',
-        program_keahlian_id : '',
-        kuota_siswa         : '',
-        keterangan          : '',
+        admin_sekolah_id    : '',
         user_id             : '',
         created_at          : '',
         updated_at          : '',
@@ -247,7 +214,7 @@ export default {
       };
     },
     back() {
-      window.location = '#/admin/prodi-sekolah';
+      window.location = '#/admin/admin-sekolah';
     }
   }
 }
