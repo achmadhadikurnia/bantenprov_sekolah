@@ -47,21 +47,47 @@ class AdminSekolahController extends Controller
      */
     public function index(Request $request)
     {
+        $admin_sekolah = $this->admin_sekolah->where('admin_sekolah_id', Auth::user()->id)->first();
+
+        if(is_null($admin_sekolah) && $this->checkRole(['superadministrator']) === false){
+            $response = [];
+            return response()->json($response)
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', 'GET');
+        }
+
         if (request()->has('sort')) {
             list($sortCol, $sortDir) = explode('|', request()->sort);
 
-            $query = $this->admin_sekolah->orderBy($sortCol, $sortDir);
+            if($this->checkRole(['superadministrator'])){
+                $query = $this->admin_sekolah->orderBy($sortCol, $sortDir);
+            }else{
+                $query = $this->admin_sekolah->where('sekolah_id', $admin_sekolah->sekolah_id)->orderBy($sortCol, $sortDir);
+            }
         } else {
-            $query = $this->admin_sekolah->orderBy('id', 'asc');
+            if($this->checkRole(['superadministrator'])){
+                $query = $this->admin_sekolah->orderBy('id', 'asc');
+            }else{
+                $query = $this->admin_sekolah->where('admin_sekolah_id', $admin_sekolah->sekolah_id)->orderBy('id', 'asc');
+            }
         }
 
         if ($request->exists('filter')) {
-            $query->where(function($q) use($request) {
-                $value = "%{$request->filter}%";
+            if($this->checkRole(['superadministrator'])){
+                $query->where(function($q) use($request) {
+                    $value = "%{$request->filter}%";
 
-                $q->where('sekolah_id', 'like', $value)
-                    ->orWhere('admin_sekolah_id', 'like', $value);
-            });
+                    $q->where('sekolah_id', 'like', $value)
+                        ->orWhere('admin_sekolah_id', 'like', $value);
+                });
+            }else{
+                $query->where(function($q) use($request, $admin_sekolah) {
+                    $value = "%{$request->filter}%";
+
+                    $q->where('sekolah_id', $admin_sekolah->sekolah_id)->where('sekolah_id', 'like', $value);
+                });
+            }
+
         }
 
         $perPage = request()->has('per_page') ? (int) request()->per_page : null;
@@ -71,6 +97,7 @@ class AdminSekolahController extends Controller
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', 'GET');
+
     }
 
     /**
@@ -116,40 +143,24 @@ class AdminSekolahController extends Controller
     {
         $user_id            = isset(Auth::User()->id) ? Auth::User()->id : null;
         $admin_sekolah      = $this->admin_sekolah->getAttributes();
-        //$program_keahlians  = $this->program_keahlian->all();
         $users              = $this->user->getAttributes();
         $users_special      = $this->user->all();
         $users_standar      = $this->user->findOrFail($user_id);
         $current_user       = Auth::User();
+        $admins             = [];
 
-        /*foreach ($program_keahlians as $program_keahlian) {
-            array_set($program_keahlian, 'label', $program_keahlian->label);
-        }*/
-
-        $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
-
-        if ($role_check) {
-            $user_special = true;
-
-            foreach ($users_special as $user) {
+        foreach($users_special as $user){
+            if($user->hasRole(['superadministrator','administrator'])){
                 array_set($user, 'label', $user->name);
+                array_push($admins, $user);
             }
-
-            $users = $users_special;
-        } else {
-            $user_special = false;
-
-            array_set($users_standar, 'label', $users_standar->name);
-
-            $users = $users_standar;
         }
 
         array_set($current_user, 'label', $current_user->name);
 
         $response['admin_sekolah']      = $admin_sekolah;
-        //$response['program_keahlians']  = $program_keahlians;
-        $response['users']              = $users;
-        $response['user_special']       = $user_special;
+        $response['users']              = $admins;
+        $response['user_special']       = true;
         $response['current_user']       = $current_user;
         $response['error']              = false;
         $response['message']            = 'Success';
@@ -166,33 +177,42 @@ class AdminSekolahController extends Controller
      */
     public function store(Request $request)
     {
-        $admin_sekolah = $this->admin_sekolah;
+        if($this->checkRole(['superadministrator'])){
+            $admin_sekolah = $this->admin_sekolah;
 
-        $validator = Validator::make($request->all(), [
-            'sekolah_id'            => "required|exists:{$this->sekolah->getTable()},id",
-            'admin_sekolah_id'      => "required|unique:{$this->admin_sekolah->getTable()},admin_sekolah_id,NULL,id,deleted_at,NULL",
-            'user_id'               => "required|exists:{$this->user->getTable()},id",
-        ]);
+            $validator = Validator::make($request->all(), [
+                'sekolah_id'            => "required|exists:{$this->sekolah->getTable()},id",
+                'admin_sekolah_id'      => "required|unique:{$this->admin_sekolah->getTable()},admin_sekolah_id,NULL,id,deleted_at,NULL",
+            ]);
 
-        if ($validator->fails()) {
-            $error      = true;
-            $message    = $validator->errors()->first();
-        } else {
-            $admin_sekolah->sekolah_id          = $request->input('sekolah_id');
-            $admin_sekolah->admin_sekolah_id    = $request->input('admin_sekolah_id');
-            $admin_sekolah->user_id             = $request->input('user_id');
-            $admin_sekolah->save();
+            if ($validator->fails()) {
+                $error      = true;
+                $message    = $validator->errors()->first();
+            } else {
+                $admin_sekolah->sekolah_id          = $request->input('sekolah_id');
+                $admin_sekolah->admin_sekolah_id    = $request->input('admin_sekolah_id');
+                $admin_sekolah->user_id             = Auth::user()->id;
+                $admin_sekolah->save();
 
-            $error      = false;
-            $message    = 'Success';
+                $error      = false;
+                $message    = 'Success';
+            }
+
+            $response['admin_sekolah']  = $admin_sekolah;
+            $response['error']          = $error;
+            $response['message']        = $message;
+            $response['status']         = true;
+
+            return response()->json($response);
+        }else{
+
+            $response['error']          = true;
+            $response['message']        = 'Maaf anda Tidak mempunyai hak akses untuk ini.';
+            $response['status']         = true;
+
+            return response()->json($response);
         }
 
-        $response['admin_sekolah']  = $admin_sekolah;
-        $response['error']          = $error;
-        $response['message']        = $message;
-        $response['status']         = true;
-
-        return response()->json($response);
     }
 
     /**
@@ -203,7 +223,12 @@ class AdminSekolahController extends Controller
      */
     public function show($id)
     {
-        $admin_sekolah = $this->admin_sekolah->with(['sekolah', 'admin_sekolah', 'user'])->findOrFail($id);
+        if($this->checkRole(['superadministrator'])){
+            $admin_sekolah = $this->admin_sekolah->with(['sekolah', 'admin_sekolah', 'user'])->findOrFail($id);
+        }else{
+            $admin_sekolah = $this->admin_sekolah->where('admin_sekolah_id', Auth::user()->id)->with(['sekolah', 'admin_sekolah', 'user'])->findOrFail($id);
+        }
+
 
         $response['admin_sekolah']  = $admin_sekolah;
         $response['error']          = false;
@@ -221,12 +246,20 @@ class AdminSekolahController extends Controller
      */
     public function edit($id)
     {
-        $user_id            = isset(Auth::User()->id) ? Auth::User()->id : null;
-        $admin_sekolah      = $this->admin_sekolah->with(['sekolah', 'admin_sekolah', 'user'])->findOrFail($id);
+        $user_id = isset(Auth::User()->id) ? Auth::User()->id : null;
+
+        if($this->checkRole(['superadministrator'])){
+            $admin_sekolah = $this->admin_sekolah->with(['sekolah', 'admin_sekolah', 'user'])->findOrFail($id);
+        }else{
+            $admin_sekolah = $this->admin_sekolah->where('admin_sekolah_id', Auth::user()->id)->with(['sekolah', 'admin_sekolah', 'user'])->findOrFail($id);
+        }
+
+
         $users              = $this->user->getAttributes();
         $users_special      = $this->user->all();
         $users_standar      = $this->user->findOrFail($user_id);
         $current_user       = Auth::User();
+        $admins             = [];
 
 
         $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
@@ -239,27 +272,18 @@ class AdminSekolahController extends Controller
             array_set($admin_sekolah->admin_sekolah, 'label', $admin_sekolah->admin_sekolah->name);
         }
 
-        if ($role_check) {
-            $user_special = true;
-
-            foreach ($users_special as $user) {
+        foreach($users_special as $user){
+            if($user->hasRole(['superadministrator','administrator'])){
                 array_set($user, 'label', $user->name);
+                array_push($admins, $user);
             }
-
-            $users = $users_special;
-        } else {
-            $user_special = false;
-
-            array_set($users_standar, 'label', $users_standar->name);
-
-            $users = $users_standar;
         }
 
         array_set($current_user, 'label', $current_user->name);
 
         $response['admin_sekolah']      = $admin_sekolah;
-        $response['users']              = $users;
-        $response['user_special']       = $user_special;
+        $response['users']              = $admins;
+        $response['user_special']       = true;
         $response['current_user']       = $current_user;
         $response['error']              = false;
         $response['message']            = 'Success';
@@ -277,33 +301,41 @@ class AdminSekolahController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $admin_sekolah = $this->admin_sekolah->with(['sekolah', 'admin_sekolah', 'user'])->findOrFail($id);
+        if($this->checkRole(['superadministrator'])){
+            $admin_sekolah = $this->admin_sekolah->with(['sekolah', 'admin_sekolah', 'user'])->findOrFail($id);
 
-        $validator = Validator::make($request->all(), [
-            'sekolah_id'            => "required|exists:{$this->sekolah->getTable()},id",
-            'admin_sekolah_id'      => "required|unique:{$this->admin_sekolah->getTable()},admin_sekolah_id,{$id},id,deleted_at,NULL",
-            'user_id'               => "required|exists:{$this->user->getTable()},id",
-        ]);
+            $validator = Validator::make($request->all(), [
+                'sekolah_id'            => "required|exists:{$this->sekolah->getTable()},id",
+                'admin_sekolah_id'      => "required|unique:{$this->admin_sekolah->getTable()},admin_sekolah_id,{$id},id,deleted_at,NULL",
+            ]);
 
-        if ($validator->fails()) {
-            $error      = true;
-            $message    = $validator->errors()->first();
-        } else {
-            $admin_sekolah->sekolah_id          = $request->input('sekolah_id');
-            $admin_sekolah->admin_sekolah_id    = $request->input('admin_sekolah_id');
-            $admin_sekolah->user_id             = $request->input('user_id');
-            $admin_sekolah->save();
+            if ($validator->fails()) {
+                $error      = true;
+                $message    = $validator->errors()->first();
+            } else {
+                $admin_sekolah->sekolah_id          = $request->input('sekolah_id');
+                $admin_sekolah->admin_sekolah_id    = $request->input('admin_sekolah_id');
+                $admin_sekolah->user_id             = Auth::user()->id;
+                $admin_sekolah->save();
 
-            $error      = false;
-            $message    = 'Success';
+                $error      = false;
+                $message    = 'Success';
+            }
+
+            $response['admin_sekolah']  = $admin_sekolah;
+            $response['error']          = $error;
+            $response['message']        = $message;
+            $response['status']         = true;
+
+            return response()->json($response);
+        }else{
+            $response['error']          = true;
+            $response['message']        = 'Maaf anda Tidak mempunyai hak akses untuk ini.';
+            $response['status']         = true;
+
+            return response()->json($response);
         }
 
-        $response['admin_sekolah']  = $admin_sekolah;
-        $response['error']          = $error;
-        $response['message']        = $message;
-        $response['status']         = true;
-
-        return response()->json($response);
     }
 
     /**
@@ -314,18 +346,30 @@ class AdminSekolahController extends Controller
      */
     public function destroy($id)
     {
-        $admin_sekolah = $this->admin_sekolah->findOrFail($id);
+        if($this->checkRole(['superadministrator'])){
+            $admin_sekolah = $this->admin_sekolah->findOrFail($id);
 
-        if ($admin_sekolah->delete()) {
-            $response['message']    = 'Success';
-            $response['success']    = true;
-            $response['status']     = true;
-        } else {
+            if ($admin_sekolah->delete()) {
+                $response['message']    = 'Success';
+                $response['success']    = true;
+                $response['status']     = true;
+            } else {
+                $response['message']    = 'Failed';
+                $response['success']    = false;
+                $response['status']     = false;
+            }
+
+            return json_encode($response);
+        }else{
             $response['message']    = 'Failed';
             $response['success']    = false;
             $response['status']     = false;
+            return json_encode($response);
         }
+    }
 
-        return json_encode($response);
+    protected function checkRole($role = array())
+    {
+        return Auth::user()->hasRole($role);
     }
 }
