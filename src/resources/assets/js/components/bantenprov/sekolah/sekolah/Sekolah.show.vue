@@ -59,6 +59,9 @@
 
           <dt class="col-4">Zona</dt>
           <dd class="col-8">{{ model.master_zona.label }}</dd>
+
+          <dt class="col-4">UUID</dt>
+          <dd class="col-8">{{ model.uuid }}</dd>
       </dl>
     </div>
 
@@ -98,6 +101,7 @@ export default {
         no_telp           : '',
         email             : '',
         kode_zona         : '',
+        uuid              : '',
         user_id           : '',
 
         jenis_sekolah     : [],
@@ -129,6 +133,7 @@ export default {
           this.model.no_telp          = response.data.sekolah.no_telp;
           this.model.email            = response.data.sekolah.email;
           this.model.kode_zona        = response.data.sekolah.kode_zona;
+          this.model.uuid             = response.data.sekolah.uuid;
           this.model.user_id          = response.data.sekolah.user_id;
           this.model.created_at       = response.data.sekolah.created_at;
           this.model.updated_at       = response.data.sekolah.updated_at;

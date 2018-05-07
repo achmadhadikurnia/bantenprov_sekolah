@@ -179,6 +179,7 @@ class SekolahController extends Controller
             'village_id'        => "required|exists:{$this->village->getTable()},id",
             'no_telp'           => 'required|digits_between:10,12',
             'email'             => 'required|email|max:255',
+            'uuid'              => 'required|max:255',
             'kode_zona'         => "required|exists:{$this->master_zona->getTable()},id",
             'user_id'           => "required|exists:{$this->user->getTable()},id",
         ]);
@@ -200,6 +201,7 @@ class SekolahController extends Controller
             $sekolah->village_id        = $request->input('village_id');
             $sekolah->no_telp           = $request->input('no_telp');
             $sekolah->email             = $request->input('email');
+            $sekolah->uuid              = $request->input('uuid');
             $sekolah->kode_zona         = $request->input('kode_zona');
             $sekolah->user_id           = $request->input('user_id');
             $sekolah->save();
@@ -331,6 +333,7 @@ class SekolahController extends Controller
             'village_id'        => "required|exists:{$this->village->getTable()},id",
             'no_telp'           => 'required|digits_between:10,12',
             'email'             => 'required|email|max:255',
+            'uuid'              => "required|unique:{$this->sekolah->getTable()},uuid,{$id},id,deleted_at,NULL",
             'kode_zona'         => "required|exists:{$this->master_zona->getTable()},id",
             'user_id'           => "required|exists:{$this->user->getTable()},id",
         ]);
@@ -352,6 +355,7 @@ class SekolahController extends Controller
             $sekolah->village_id        = $request->input('village_id');
             $sekolah->no_telp           = $request->input('no_telp');
             $sekolah->email             = $request->input('email');
+            $sekolah->uuid              = $request->input('uuid');
             $sekolah->kode_zona         = $request->input('kode_zona');
             $sekolah->user_id           = $request->input('user_id');
             $sekolah->save();
