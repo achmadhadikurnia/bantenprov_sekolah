@@ -199,6 +199,20 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
+              <label for="uuid">UUID</label>
+              <input type="text" class="form-control" name="uuid" v-model="model.uuid" placeholder="UUID" required>
+
+              <field-messages name="uuid" show="$invalid && $submitted" class="text-danger">
+                <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">UUID is a required field</small>
+              </field-messages>
+            </validate>
+          </div>
+        </div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
               <label for="user_id">Username</label>
               <v-select name="user_id" v-model="model.user" :options="user" placeholder="Username" required></v-select>
 
@@ -243,6 +257,7 @@ export default {
         no_telp             : '',
         email               : '',
         kode_zona           : '',
+        uuid                : '',
         user_id             : '',
         created_at          : '',
         updated_at          : '',
@@ -394,6 +409,7 @@ export default {
             village_id        : this.model.village.id,
             no_telp           : this.model.no_telp,
             email             : this.model.email,
+            uuid              : this.model.uuid,
             kode_zona         : this.model.master_zona.id,
             user_id           : this.model.user.id,
           })
@@ -504,6 +520,7 @@ export default {
         no_telp           : '',
         email             : '',
         kode_zona         : '',
+        uuid              : '',
         user_id           : '',
         created_at        : '',
         updated_at        : '',
