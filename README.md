@@ -30,6 +30,7 @@ $ composer require bantenprov/sekolah
 
 ```bash
 $ git clone https://github.com/bantenprov/sekolah.git
+
 ```
 
 #### Edit `config/app.php` :
