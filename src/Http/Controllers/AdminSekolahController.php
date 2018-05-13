@@ -150,7 +150,7 @@ class AdminSekolahController extends Controller
         $admins             = [];
 
         foreach($users_special as $user){
-            if($user->hasRole(['superadministrator','administrator'])){
+            if($user->hasRole(['superadministrator','admin_sekolah'])){
                 array_set($user, 'label', $user->name);
                 array_push($admins, $user);
             }
@@ -273,7 +273,7 @@ class AdminSekolahController extends Controller
         }
 
         foreach($users_special as $user){
-            if($user->hasRole(['superadministrator','administrator'])){
+            if($user->hasRole(['superadministrator','admin_sekolah'])){
                 array_set($user, 'label', $user->name);
                 array_push($admins, $user);
             }
