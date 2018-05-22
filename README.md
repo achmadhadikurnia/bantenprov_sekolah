@@ -116,20 +116,20 @@ php artisan db:seed --class=BantenprovSekolahSeederProdiSekolah
         {
             name: 'Sekolah',
             link: '/dashboard/sekolah',
-            icon: 'fa fa-angle-double-right'
+            icon: 'fa fa-angle-double-right',
         },
         // Prodi Sekolah
         {
             name: 'Prodi Sekolah',
             link: '/dashboard/prodi-sekolah',
-            icon: 'fa fa-angle-double-right'
+            icon: 'fa fa-angle-double-right',
         },
         //...
         // Admin Sekolah
         {
             name: 'Admin Sekolah',
             link: '/dashboard/admin-sekolah',
-            icon: 'fa fa-angle-double-right'
+            icon: 'fa fa-angle-double-right',
         },
         //...
     ]
@@ -147,19 +147,19 @@ php artisan db:seed --class=BantenprovSekolahSeederProdiSekolah
         {
             name: 'Sekolah',
             link: '/admin/sekolah',
-            icon: 'fa fa-angle-double-right'
+            icon: 'fa fa-angle-double-right',
         },
         // Prodi Sekolah
         {
             name: 'Prodi Sekolah',
             link: '/admin/prodi-sekolah',
-            icon: 'fa fa-angle-double-right'
+            icon: 'fa fa-angle-double-right',
         },
         // Admin Sekolah
         {
           name: 'Admin Sekolah',
           link: '/admin/admin-sekolah',
-          icon: 'fa fa-angle-double-right'
+          icon: 'fa fa-angle-double-right',
         },
         //...
     ]
@@ -337,10 +337,10 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             components: {
                 main: resolve => require(['~/components/views/bantenprov/sekolah/sekolah/SekolahDashboard.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Sekolah"
+                title: "Sekolah",
             }
         },
         // Prodi Sekolah
@@ -349,10 +349,10 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             components: {
                 main: resolve => require(['~/components/views/bantenprov/sekolah/prodi-sekolah/ProdiSekolahDashboard.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Prodi Sekolah"
+                title: "Prodi Sekolah",
             }
         },
         // Admin Sekolah
@@ -361,10 +361,10 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             components: {
                 main: resolve => require(['~/components/views/bantenprov/sekolah/admin-sekolah/AdminSekolahDashboard.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Admin Sekolah"
+                title: "Admin Sekolah",
             }
         },
         //...
@@ -385,10 +385,10 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             components: {
                 main: resolve => require(['~/components/bantenprov/sekolah/sekolah/Sekolah.index.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Sekolah"
+                title: "Sekolah",
             }
         },
         {
@@ -396,10 +396,10 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             components: {
                 main: resolve => require(['~/components/bantenprov/sekolah/sekolah/Sekolah.add.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Add Sekolah"
+                title: "Add Sekolah",
             }
         },
         {
@@ -407,10 +407,10 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             components: {
                 main: resolve => require(['~/components/bantenprov/sekolah/sekolah/Sekolah.show.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "View Sekolah"
+                title: "View Sekolah",
             }
         },
         {
@@ -418,10 +418,10 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             components: {
                 main: resolve => require(['~/components/bantenprov/sekolah/sekolah/Sekolah.edit.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Edit Sekolah"
+                title: "Edit Sekolah",
             }
         },
         // Prodi Sekolah
@@ -430,10 +430,10 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             components: {
                 main: resolve => require(['~/components/bantenprov/sekolah/prodi-sekolah/ProdiSekolah.index.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Prodi Sekolah"
+                title: "Prodi Sekolah",
             }
         },
         {
@@ -441,10 +441,10 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             components: {
                 main: resolve => require(['~/components/bantenprov/sekolah/prodi-sekolah/ProdiSekolah.add.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Add Prodi Sekolah"
+                title: "Add Prodi Sekolah",
             }
         },
         {
@@ -452,10 +452,10 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             components: {
                 main: resolve => require(['~/components/bantenprov/sekolah/prodi-sekolah/ProdiSekolah.show.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "View Prodi Sekolah"
+                title: "View Prodi Sekolah",
             }
         },
         {
@@ -463,10 +463,10 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             components: {
                 main: resolve => require(['~/components/bantenprov/sekolah/prodi-sekolah/ProdiSekolah.edit.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Edit Prodi Sekolah"
+                title: "Edit Prodi Sekolah",
             }
         },
         // Admin Sekolah
@@ -475,10 +475,10 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             components: {
                 main: resolve => require(['~/components/bantenprov/sekolah/admin-sekolah/AdminSekolah.index.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Admin Sekolah"
+                title: "Admin Sekolah",
             }
         },
         {
@@ -486,10 +486,10 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             components: {
                 main: resolve => require(['~/components/bantenprov/sekolah/admin-sekolah/AdminSekolah.add.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Add Admin Sekolah"
+                title: "Add Admin Sekolah",
             }
         },
         {
@@ -497,10 +497,10 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             components: {
                 main: resolve => require(['~/components/bantenprov/sekolah/admin-sekolah/AdminSekolah.show.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "View Admin Sekolah"
+                title: "View Admin Sekolah",
             }
         },
         {
@@ -508,10 +508,10 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             components: {
                 main: resolve => require(['~/components/bantenprov/sekolah/admin-sekolah/AdminSekolah.edit.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Edit Admin Sekolah"
+                title: "Edit Admin Sekolah",
             }
         },
         //...
