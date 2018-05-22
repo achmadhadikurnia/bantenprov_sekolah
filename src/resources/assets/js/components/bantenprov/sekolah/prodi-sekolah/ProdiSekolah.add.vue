@@ -5,7 +5,7 @@
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
-          <button class="btn btn-primary btn-sm" role="button" @click="back">
+          <button class="btn btn-default btn-sm" role="button" @click="back">
             <i class="fa fa-arrow-left" aria-hidden="true"></i>
           </button>
         </li>

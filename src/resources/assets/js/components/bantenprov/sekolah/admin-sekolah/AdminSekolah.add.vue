@@ -5,7 +5,7 @@
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
-          <button class="btn btn-primary btn-sm" role="button" @click="back">
+          <button class="btn btn-default btn-sm" role="button" @click="back">
             <i class="fa fa-arrow-left" aria-hidden="true"></i>
           </button>
         </li>
@@ -47,7 +47,7 @@
             <validate tag="div">
               <label for="user_id">Username</label>
               <v-select name="user_id" v-model="model.user" :options="user" placeholder="Username" required></v-select>
-        
+
               <field-messages name="user_id" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
                 <small class="form-text text-danger" slot="required">User is a required field</small>

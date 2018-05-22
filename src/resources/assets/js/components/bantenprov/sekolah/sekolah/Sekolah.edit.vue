@@ -13,7 +13,7 @@
         <button class="btn btn-danger btn-sm" role="button" @click="deleteRow">
           <i class="fa fa-trash" aria-hidden="true"></i>
         </button>
-        <button class="btn btn-primary btn-sm" role="button" @click="back">
+        <button class="btn btn-default btn-sm" role="button" @click="back">
           <i class="fa fa-arrow-left" aria-hidden="true"></i>
         </button>
       </div>
