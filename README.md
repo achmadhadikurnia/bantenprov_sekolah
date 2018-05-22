@@ -341,7 +341,7 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             },
             meta: {
                 title: "Sekolah",
-            }
+            },
         },
         // Prodi Sekolah
         {
@@ -353,7 +353,7 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             },
             meta: {
                 title: "Prodi Sekolah",
-            }
+            },
         },
         // Admin Sekolah
         {
@@ -365,7 +365,7 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             },
             meta: {
                 title: "Admin Sekolah",
-            }
+            },
         },
         //...
     ]
@@ -389,7 +389,7 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             },
             meta: {
                 title: "Sekolah",
-            }
+            },
         },
         {
             path: '/admin/sekolah/create',
@@ -400,7 +400,7 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             },
             meta: {
                 title: "Add Sekolah",
-            }
+            },
         },
         {
             path: '/admin/sekolah/:id',
@@ -411,7 +411,7 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             },
             meta: {
                 title: "View Sekolah",
-            }
+            },
         },
         {
             path: '/admin/sekolah/:id/edit',
@@ -422,7 +422,7 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             },
             meta: {
                 title: "Edit Sekolah",
-            }
+            },
         },
         // Prodi Sekolah
         {
@@ -434,7 +434,7 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             },
             meta: {
                 title: "Prodi Sekolah",
-            }
+            },
         },
         {
             path: '/admin/prodi-sekolah/create',
@@ -445,7 +445,7 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             },
             meta: {
                 title: "Add Prodi Sekolah",
-            }
+            },
         },
         {
             path: '/admin/prodi-sekolah/:id',
@@ -456,7 +456,7 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             },
             meta: {
                 title: "View Prodi Sekolah",
-            }
+            },
         },
         {
             path: '/admin/prodi-sekolah/:id/edit',
@@ -467,7 +467,7 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             },
             meta: {
                 title: "Edit Prodi Sekolah",
-            }
+            },
         },
         // Admin Sekolah
         {
@@ -479,7 +479,7 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             },
             meta: {
                 title: "Admin Sekolah",
-            }
+            },
         },
         {
             path: '/admin/admin-sekolah/create',
@@ -490,7 +490,7 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             },
             meta: {
                 title: "Add Admin Sekolah",
-            }
+            },
         },
         {
             path: '/admin/admin-sekolah/:id',
@@ -501,7 +501,7 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             },
             meta: {
                 title: "View Admin Sekolah",
-            }
+            },
         },
         {
             path: '/admin/admin-sekolah/:id/edit',
@@ -512,7 +512,7 @@ Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
             },
             meta: {
                 title: "Edit Admin Sekolah",
-            }
+            },
         },
         //...
     ]
