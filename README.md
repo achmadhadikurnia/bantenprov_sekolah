@@ -17,20 +17,19 @@ Sekolah
 - Development snapshot
 
 ```bash
-$ composer require bantenprov/sekolah:dev-master
+composer require bantenprov/sekolah:dev-master
 ```
 
 - Latest release:
 
 ```bash
-$ composer require bantenprov/sekolah
+composer require bantenprov/sekolah
 ```
 
 ### Download via github
 
 ```bash
-$ git clone https://github.com/bantenprov/sekolah.git
-
+git clone https://github.com/bantenprov/sekolah.git
 ```
 
 #### Edit `config/app.php` :
@@ -49,6 +48,7 @@ $ git clone https://github.com/bantenprov/sekolah.git
     //...
     Bantenprov\Sekolah\SekolahServiceProvider::class,
     //...
+],
 ```
 
 #### Edit `app/Http/Kernel.php`
@@ -61,32 +61,30 @@ protected $routeMiddleware = [
     'can' => \Illuminate\Auth\Middleware\Authorize::class,
     'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
     'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-    
-    // -----------------
-
+    //...
     'role' => \Laratrust\Middleware\LaratrustRole::class,
     'permission' => \Laratrust\Middleware\LaratrustPermission::class,
     'ability' => \Laratrust\Middleware\LaratrustAbility::class,
+    //...
 ];
-
 ```
 
 #### Lakukan migrate :
 
 ```bash
-$ php artisan migrate
+php artisan migrate
 ```
 
 #### Lakukan publish semua komponen :
 
 ```bash
-$ php artisan vendor:publish --tag=sekolah-publish
+php artisan vendor:publish --tag=sekolah-publish
 ```
 
 #### Lakukan auto dump :
 
 ```bash
-$ composer dump-autoload
+composer dump-autoload
 ```
 
 #### Lakukan seeding :
@@ -94,15 +92,15 @@ $ composer dump-autoload
 - Seeding semua seeder
 
 ```bash
-$ php artisan db:seed --class=BantenprovSekolahSeeder
+php artisan db:seed --class=BantenprovSekolahSeeder
 ```
 
 - Seeding secara individual
 
 ```bash
-$ php artisan db:seed --class=BantenprovSekolahSeederJenisSekolah
-$ php artisan db:seed --class=BantenprovSekolahSeederSekolah
-$ php artisan db:seed --class=BantenprovSekolahSeederProdiSekolah
+php artisan db:seed --class=BantenprovSekolahSeederJenisSekolah
+php artisan db:seed --class=BantenprovSekolahSeederSekolah
+php artisan db:seed --class=BantenprovSekolahSeederProdiSekolah
 ```
 
 #### Edit menu `resources/assets/js/menu.js`
@@ -124,6 +122,13 @@ $ php artisan db:seed --class=BantenprovSekolahSeederProdiSekolah
         {
             name: 'Prodi Sekolah',
             link: '/dashboard/prodi-sekolah',
+            icon: 'fa fa-angle-double-right'
+        },
+        //...
+        // Admin Sekolah
+        {
+            name: 'Admin Sekolah',
+            link: '/dashboard/admin-sekolah',
             icon: 'fa fa-angle-double-right'
         },
         //...
@@ -156,9 +161,7 @@ $ php artisan db:seed --class=BantenprovSekolahSeederProdiSekolah
           link: '/admin/admin-sekolah',
           icon: 'fa fa-angle-double-right'
         },
-
         //...
-
     ]
 },
 ```
@@ -166,6 +169,44 @@ $ php artisan db:seed --class=BantenprovSekolahSeederProdiSekolah
 #### Tambahkan components `resources/assets/js/components.js` :
 
 ```javascript
+//... Jenis Sekolah ...//
+
+import JenisSekolahAdminShow from '~/components/bantenprov/sekolah/jenis-sekolah/JenisSekolahAdmin.show.vue';
+Vue.component('jenis-sekolah-admin', JenisSekolahAdminShow);
+
+//... Echarts Jenis Sekolah ...//
+
+import JenisSekolah from '~/components/bantenprov/sekolah/jenis-sekolah/JenisSekolah.chart.vue';
+Vue.component('jenis-sekolah-echarts', JenisSekolah);
+
+import JenisSekolahKota from '~/components/bantenprov/sekolah/jenis-sekolah/JenisSekolahKota.chart.vue';
+Vue.component('jenis-sekolah-echarts-kota', JenisSekolahKota);
+
+import JenisSekolahTahun from '~/components/bantenprov/sekolah/jenis-sekolah/JenisSekolahTahun.chart.vue';
+Vue.component('jenis-sekolah-echarts-tahun', JenisSekolahTahun);
+
+//... Mini Bar Charts Jenis Sekolah ...//
+
+import JenisSekolahBar01 from '~/components/views/bantenprov/sekolah/jenis-sekolah/JenisSekolahBar01.vue';
+Vue.component('jenis-sekolah-bar-01', JenisSekolahBar01);
+
+import JenisSekolahBar02 from '~/components/views/bantenprov/sekolah/jenis-sekolah/JenisSekolahBar02.vue';
+Vue.component('jenis-sekolah-bar-02', JenisSekolahBar02);
+
+import JenisSekolahBar03 from '~/components/views/bantenprov/sekolah/jenis-sekolah/JenisSekolahBar03.vue';
+Vue.component('jenis-sekolah-bar-03', JenisSekolahBar03);
+
+//... Mini Pie Charts Jenis Sekolah ...//
+
+import JenisSekolahPie01 from '~/components/views/bantenprov/sekolah/jenis-sekolah/JenisSekolahPie01.vue';
+Vue.component('jenis-sekolah-pie-01', JenisSekolahPie01);
+
+import JenisSekolahPie02 from '~/components/views/bantenprov/sekolah/jenis-sekolah/JenisSekolahPie02.vue';
+Vue.component('jenis-sekolah-pie-02', JenisSekolahPie02);
+
+import JenisSekolahPie03 from '~/components/views/bantenprov/sekolah/jenis-sekolah/JenisSekolahPie03.vue';
+Vue.component('jenis-sekolah-pie-03', JenisSekolahPie03);
+
 //... Sekolah ...//
 
 import SekolahAdminShow from '~/components/bantenprov/sekolah/sekolah/SekolahAdmin.show.vue';
@@ -241,6 +282,44 @@ Vue.component('prodi-sekolah-pie-02', ProdiSekolahPie02);
 
 import ProdiSekolahPie03 from '~/components/views/bantenprov/sekolah/prodi-sekolah/ProdiSekolahPie03.vue';
 Vue.component('prodi-sekolah-pie-03', ProdiSekolahPie03);
+
+//... Admin Sekolah ...//
+
+import AdminSekolahAdminShow from '~/components/bantenprov/sekolah/admin-sekolah/AdminSekolahAdmin.show.vue';
+Vue.component('admin-sekolah-admin', AdminSekolahAdminShow);
+
+//... Echarts Admin Sekolah ...//
+
+import AdminSekolah from '~/components/bantenprov/sekolah/admin-sekolah/AdminSekolah.chart.vue';
+Vue.component('admin-sekolah-echarts', AdminSekolah);
+
+import AdminSekolahKota from '~/components/bantenprov/sekolah/admin-sekolah/AdminSekolahKota.chart.vue';
+Vue.component('admin-sekolah-echarts-kota', AdminSekolahKota);
+
+import AdminSekolahTahun from '~/components/bantenprov/sekolah/admin-sekolah/AdminSekolahTahun.chart.vue';
+Vue.component('admin-sekolah-echarts-tahun', AdminSekolahTahun);
+
+//... Mini Bar Charts Admin Sekolah ...//
+
+import AdminSekolahBar01 from '~/components/views/bantenprov/sekolah/admin-sekolah/AdminSekolahBar01.vue';
+Vue.component('admin-sekolah-bar-01', AdminSekolahBar01);
+
+import AdminSekolahBar02 from '~/components/views/bantenprov/sekolah/admin-sekolah/AdminSekolahBar02.vue';
+Vue.component('admin-sekolah-bar-02', AdminSekolahBar02);
+
+import AdminSekolahBar03 from '~/components/views/bantenprov/sekolah/admin-sekolah/AdminSekolahBar03.vue';
+Vue.component('admin-sekolah-bar-03', AdminSekolahBar03);
+
+//... Mini Pie Charts Admin Sekolah ...//
+
+import AdminSekolahPie01 from '~/components/views/bantenprov/sekolah/admin-sekolah/AdminSekolahPie01.vue';
+Vue.component('admin-sekolah-pie-01', AdminSekolahPie01);
+
+import AdminSekolahPie02 from '~/components/views/bantenprov/sekolah/admin-sekolah/AdminSekolahPie02.vue';
+Vue.component('admin-sekolah-pie-02', AdminSekolahPie02);
+
+import AdminSekolahPie03 from '~/components/views/bantenprov/sekolah/admin-sekolah/AdminSekolahPie03.vue';
+Vue.component('admin-sekolah-pie-03', AdminSekolahPie03);
 ```
 
 #### Tambahkan route di dalam file : `resources/assets/js/routes.js` :
@@ -256,7 +335,7 @@ Vue.component('prodi-sekolah-pie-03', ProdiSekolahPie03);
         {
             path: '/dashboard/sekolah',
             components: {
-                main: resolve => require(['~/components/views/bantenprov/sekolah/sekolah/DashboardSekolah.vue'], resolve),
+                main: resolve => require(['~/components/views/bantenprov/sekolah/sekolah/SekolahDashboard.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
                 sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
             },
@@ -268,12 +347,24 @@ Vue.component('prodi-sekolah-pie-03', ProdiSekolahPie03);
         {
             path: '/dashboard/prodi-sekolah',
             components: {
-                main: resolve => require(['~/components/views/bantenprov/sekolah/prodi-sekolah/DashboardProdiSekolah.vue'], resolve),
+                main: resolve => require(['~/components/views/bantenprov/sekolah/prodi-sekolah/ProdiSekolahDashboard.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
                 sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
             },
             meta: {
                 title: "Prodi Sekolah"
+            }
+        },
+        // Admin Sekolah
+        {
+            path: '/dashboard/admin-sekolah',
+            components: {
+                main: resolve => require(['~/components/views/bantenprov/sekolah/admin-sekolah/AdminSekolahDashboard.vue'], resolve),
+                navbar: resolve => require(['~/components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "Admin Sekolah"
             }
         },
         //...
@@ -378,55 +469,52 @@ Vue.component('prodi-sekolah-pie-03', ProdiSekolahPie03);
                 title: "Edit Prodi Sekolah"
             }
         },
-
-        //Admin sekolah
+        // Admin Sekolah
         {
-        path: '/admin/admin-sekolah',
-        components: {
-            main: resolve => require(['~/components/bantenprov/sekolah/admin-sekolah/AdminSekolah.index.vue'], resolve),
-            navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-            sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
-        },
-        meta: {
-            title: "admin Sekolah"
-        }
-        },
-        {
-        path: '/admin/admin-sekolah/create',
-        components: {
-            main: resolve => require(['~/components/bantenprov/sekolah/admin-sekolah/AdminSekolah.add.vue'], resolve),
-            navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-            sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
-        },
-        meta: {
-            title: "Add admin Sekolah"
-        }
+            path: '/admin/admin-sekolah',
+            components: {
+                main: resolve => require(['~/components/bantenprov/sekolah/admin-sekolah/AdminSekolah.index.vue'], resolve),
+                navbar: resolve => require(['~/components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "Admin Sekolah"
+            }
         },
         {
-        path: '/admin/admin-sekolah/:id',
-        components: {
-            main: resolve => require(['~/components/bantenprov/sekolah/admin-sekolah/AdminSekolah.show.vue'], resolve),
-            navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-            sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
-        },
-        meta: {
-            title: "View admin Sekolah"
-        }
+            path: '/admin/admin-sekolah/create',
+            components: {
+                main: resolve => require(['~/components/bantenprov/sekolah/admin-sekolah/AdminSekolah.add.vue'], resolve),
+                navbar: resolve => require(['~/components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "Add Admin Sekolah"
+            }
         },
         {
-        path: '/admin/admin-sekolah/:id/edit',
-        components: {
-            main: resolve => require(['~/components/bantenprov/sekolah/admin-sekolah/AdminSekolah.edit.vue'], resolve),
-            navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-            sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+            path: '/admin/admin-sekolah/:id',
+            components: {
+                main: resolve => require(['~/components/bantenprov/sekolah/admin-sekolah/AdminSekolah.show.vue'], resolve),
+                navbar: resolve => require(['~/components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "View Admin Sekolah"
+            }
         },
-        meta: {
-            title: "Edit admin Sekolah"
-        }
+        {
+            path: '/admin/admin-sekolah/:id/edit',
+            components: {
+                main: resolve => require(['~/components/bantenprov/sekolah/admin-sekolah/AdminSekolah.edit.vue'], resolve),
+                navbar: resolve => require(['~/components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "Edit Admin Sekolah"
+            }
         },
-
         //...
-        
     ]
 },
 ```
