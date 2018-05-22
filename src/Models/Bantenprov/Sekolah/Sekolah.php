@@ -47,12 +47,12 @@ class Sekolah extends Model
 
     public function getJalurUmumAttribute()
     {
-        return $this->siswas->whereIn('kegiatan_id', [11,21])->count();
+        return $this->siswas->whereIn('kegiatan_id', [12,22])->count();
     }
 
     public function getJalurPrestasiAttribute()
     {
-        return $this->siswas->whereIn('kegiatan_id', [12,22])->count();
+        return $this->siswas->whereIn('kegiatan_id', [11,21])->count();
     }
 
     public function getJumlahPendaftarAttribute()
