@@ -25,7 +25,7 @@
           <div class="col-md">
             <validate tag="div">
               <label for="sekolah_id">Sekolah</label>
-              <v-select name="sekolah_id" v-model="model.sekolah" :options="sekolah" placeholder="Sekolah" required autofocus disabled></v-select>
+              <v-select name="sekolah_id" v-model="model.sekolah" :options="sekolah" placeholder="Sekolah" required autofocus></v-select>
 
               <field-messages name="sekolah_id" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
@@ -38,54 +38,12 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <label for="program_keahlian_id">Program Keahlian</label>
-              <v-select name="program_keahlian_id" v-model="model.program_keahlian" :options="program_keahlian" placeholder="Program Keahlian" required></v-select>
+              <label for="admin_sekolah_id">Admin Sekolah</label>
+              <v-select name="admin_sekolah_id" v-model="model.admin_sekolah" :options="user" placeholder="Admin Sekolah" required></v-select>
 
-              <field-messages name="program_keahlian_id" show="$invalid && $submitted" class="text-danger">
+              <field-messages name="admin_sekolah_id" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Program Keahlian is a required field</small>
-              </field-messages>
-            </validate>
-          </div>
-        </div>
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <validate tag="div">
-              <label for="kuota_siswa">Kuota Siswa</label>
-              <input type="text" class="form-control" name="kuota_siswa" v-model="model.kuota_siswa" placeholder="Kuota Siswa" required>
-
-              <field-messages name="kuota_siswa" show="$invalid && $submitted" class="text-danger">
-                <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Kuota Siswa is a required field</small>
-              </field-messages>
-            </validate>
-          </div>
-        </div>
-
-        <!-- <div class="form-row mt-4">
-          <div class="col-md">
-            <validate tag="div">
-              <label for="keterangan">Keterangan</label>
-              <input type="text" class="form-control" name="keterangan" v-model="model.keterangan" placeholder="Keterangan" required>
-
-              <field-messages name="keterangan" show="$invalid && $submitted" class="text-danger">
-                <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Keterangan is a required field</small>
-              </field-messages>
-            </validate>
-          </div>
-        </div> -->
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <validate tag="div">
-              <label for="user_id">Username</label>
-              <v-select name="user_id" v-model="model.user" :options="user" placeholder="Username" required></v-select>
-
-              <field-messages name="user_id" show="$invalid && $submitted" class="text-danger">
-                <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">User is a required field</small>
+                <small class="form-text text-danger" slot="required">Admin Sekolah is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -109,52 +67,44 @@ export default {
   data() {
     return {
       state: {},
-      title: 'Edit Prodi Sekolah',
+      title: 'Edit Admin Sekolah',
       model: {
         sekolah_id          : '',
-        program_keahlian_id : '',
-        kuota_siswa         : '',
-        keterangan          : '',
+        admin_sekolah_id    : '',
         user_id             : '',
         created_at          : '',
         updated_at          : '',
 
         sekolah             : '',
-        program_keahlian    : '',
+        admin_sekolah       : '',
         user                : '',
       },
       sekolah           : [],
-      program_keahlian  : [],
+      admin_sekolah     : [],
       user              : [],
     }
   },
   mounted(){
     let app = this;
 
-    axios.get('api/prodi-sekolah/'+this.$route.params.id+'/edit')
+    axios.get('api/admin-sekolah/'+this.$route.params.id+'/edit')
       .then(response => {
         if (response.data.status == true && response.data.error == false) {
-          this.model.sekolah_id           = response.data.prodi_sekolah.sekolah_id;
-          this.model.program_keahlian_id  = response.data.prodi_sekolah.program_keahlian_id;
-          this.model.kuota_siswa          = response.data.prodi_sekolah.kuota_siswa;
-          this.model.keterangan           = response.data.prodi_sekolah.keterangan;
-          this.model.user_id              = response.data.prodi_sekolah.user_id;
-          this.model.created_at           = response.data.prodi_sekolah.created_at;
-          this.model.updated_at           = response.data.prodi_sekolah.updated_at;
+          this.model.sekolah_id           = response.data.admin_sekolah.sekolah_id;
+          this.model.admin_sekolah_id     = response.data.admin_sekolah.admin_sekolah_id;
+          this.model.user_id              = response.data.admin_sekolah.user_id;
+          this.model.created_at           = response.data.admin_sekolah.created_at;
+          this.model.updated_at           = response.data.admin_sekolah.updated_at;
 
-          this.model.sekolah              = response.data.prodi_sekolah.sekolah;
-          this.model.program_keahlian     = response.data.prodi_sekolah.program_keahlian;
-          this.model.user                 = response.data.prodi_sekolah.user;
+          this.model.sekolah              = response.data.admin_sekolah.sekolah;
+          this.model.admin_sekolah        = response.data.admin_sekolah.admin_sekolah;
+          this.model.user                 = response.data.admin_sekolah.user;
 
-          if (response.data.prodi_sekolah.user === null) {
+          if (response.data.admin_sekolah.user === null) {
             this.model.user = response.data.current_user;
           } else {
-            this.model.user = response.data.prodi_sekolah.user;
+            this.model.user = response.data.admin_sekolah.user;
           }
-
-          response.data.program_keahlians.forEach(element => {
-            this.program_keahlian.push(element);
-          });
 
           if (response.data.user_special == true) {
             this.user = response.data.users;
@@ -214,11 +164,9 @@ export default {
       if (this.state.$invalid) {
         return;
       } else {
-        axios.put('api/prodi-sekolah/'+this.$route.params.id, {
+        axios.put('api/admin-sekolah/'+this.$route.params.id, {
             sekolah_id          : this.model.sekolah.id,
-            program_keahlian_id : this.model.program_keahlian.id,
-            kuota_siswa         : this.model.kuota_siswa,
-            // keterangan          : this.model.keterangan,
+            admin_sekolah_id    : this.model.admin_sekolah.id,
             user_id             : this.model.user.id,
           })
           .then(response => {
@@ -262,23 +210,20 @@ export default {
     reset() {
       this.model = {
         sekolah_id          : '',
-        program_keahlian_id : '',
-        kuota_siswa         : '',
-        keterangan          : '',
-        user_id             : '',
+        admin_sekolah_id : '',
         created_at          : '',
         updated_at          : '',
 
         sekolah             : '',
-        program_keahlian    : '',
+        admin_sekolah       : '',
         user                : '',
       };
     },
     createRow() {
-      window.location = '#/admin/prodi-sekolah/create';
+      window.location = '#/admin/admin-sekolah/create';
     },
     viewRow() {
-      window.location = '#/admin/prodi-sekolah/'+this.$route.params.id;
+      window.location = '#/admin/admin-sekolah/'+this.$route.params.id;
     },
     deleteRow() {
       let app = this;
@@ -298,7 +243,7 @@ export default {
         reverseButtons: true
       }).then((result) => {
         if (result.value) {
-          axios.delete('/api/prodi-sekolah/'+this.$route.params.id)
+          axios.delete('/api/admin-sekolah/'+this.$route.params.id)
             .then(function(response) {
               if (response.data.status == true) {
                 app.back();
@@ -333,7 +278,7 @@ export default {
       });
     },
     back() {
-      window.location = '#/admin/prodi-sekolah';
+      window.location = '#/admin/admin-sekolah';
     }
   }
 }

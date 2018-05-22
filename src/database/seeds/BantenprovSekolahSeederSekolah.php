@@ -54,20 +54,22 @@ class BantenprovSekolahSeederSekolah extends Seeder
         foreach($this->readCSV() as $data){
 
             $this->model->create([
-            	'user_id' => $data['user_id'],
-                'nama' => $data['nama'],
-                'npsn' => $data['npsn'],
-                'jenis_sekolah_id' => $data['jenis_sekolah_id'],
-                'alamat' => $data['alamat'],
-                'logo' => $data['logo'],
-                'foto_gedung' => $data['foto_gedung'],
-                'province_id' => $data['province_id'],
-                'city_id' => $data['city_id'],
-                'district_id' => $data['district_id'],
-                'village_id' => $data['village_id'],
-                'no_telp' => $data['no_telp'],
-                'email' => $data['email'],
-                'kode_zona' => $data['kode_zona'],
+                'id'                => $data['id'],
+            	'user_id'           => $data['user_id'],
+                'nama'              => $data['nama'],
+                'npsn'              => $data['npsn'],
+                'jenis_sekolah_id'  => $data['jenis_sekolah_id'],
+                'alamat'            => $data['alamat'],
+                'logo'              => $data['logo'],
+                'foto_gedung'       => $data['foto_gedung'],
+                'province_id'       => $data['province_id'],
+                'city_id'           => $data['city_id'],
+                'district_id'       => $data['district_id'],
+                'village_id'        => $data['village_id'],
+                'no_telp'           => $data['no_telp'],
+                'email'             => $data['email'],
+                'kode_zona'         => $data['kode_zona'],
+                'uuid'              => $data['uuid'],
 
             ]);
 
@@ -101,6 +103,10 @@ class BantenprovSekolahSeederSekolah extends Seeder
                 echo"\n";
                 $this->orangeText('user_id : ').$this->greenText($data['user_id']);
                 echo"\n";
+                $this->orangeText('id : ').$this->greenText($data['id']);
+                echo"\n";
+                $this->orangeText('uuid : ').$this->greenText($data['uuid']);
+                echo"\n";
                 echo "============[DATA]============\n\n";
             }
 
@@ -131,20 +137,22 @@ class BantenprovSekolahSeederSekolah extends Seeder
         $row = 1;
         while(($data = fgetcsv($file, 1000, ",")) !== FALSE){
             $all_data[] = [ 
-                            'user_id' => $data[0],
-                            'nama' => $data[1],
-                            'npsn' => $data[2],
-                            'jenis_sekolah_id' => $data[3],
-                            'alamat' => $data[4],
-                            'logo' => $data[5],
-                            'foto_gedung' => $data[6],
-                            'province_id' => $data[7],
-                            'city_id' => $data[8],
-                            'district_id' => $data[9],
-                            'village_id' => $data[10],
-                            'no_telp' => $data[11],
-                            'email' => $data[13],
-                            'kode_zona' => $data[14],
+                            'id'                => $data[0],
+                            'user_id'           => $data[1],
+                            'nama'              => $data[2],
+                            'npsn'              => $data[3],
+                            'jenis_sekolah_id'  => $data[4],
+                            'alamat'            => $data[5],
+                            'logo'              => $data[6],
+                            'foto_gedung'       => $data[7],
+                            'province_id'       => $data[8],
+                            'city_id'           => $data[9],
+                            'district_id'       => $data[10],
+                            'village_id'        => $data[11],
+                            'no_telp'           => $data[12],
+                            'email'             => $data[13],
+                            'kode_zona'         => $data[14],
+                            'uuid'              => $data[15],
                         ];
         }
         fclose($file);

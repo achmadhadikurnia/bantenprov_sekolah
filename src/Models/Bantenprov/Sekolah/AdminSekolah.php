@@ -5,19 +5,16 @@ namespace Bantenprov\Sekolah\Models\Bantenprov\Sekolah;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class JenisSekolah extends Model
+class AdminSekolah extends Model
 {
     use SoftDeletes;
 
     public $timestamps = true;
 
-    protected $table = 'jenis_sekolahs';
+    protected $table = 'admin_sekolahs';
     protected $fillable = [
-        'jenis_sekolah',
+        'sekolah_id',
         'user_id',
-    ];
-    protected $appends = [
-        'label',
     ];
     protected $hidden = [
     ];
@@ -25,14 +22,21 @@ class JenisSekolah extends Model
         'deleted_at',
     ];
 
-    public function getLabelAttribute()
-    {
-        return $this->jenis_sekolah;
-    }
+    
 
     public function user()
     {
         return $this->belongsTo('App\User', 'user_id');
     }
 
+    public function sekolah()
+    {
+        return $this->belongsTo('Bantenprov\Sekolah\Models\Bantenprov\Sekolah\Sekolah','sekolah_id');
+    }
+
+
+    public function admin_sekolah()
+    {
+        return $this->belongsTo('App\User', 'admin_sekolah_id');
+    }
 }

@@ -13,7 +13,7 @@ class CreateSekolahsTable extends Migration
 	public function up()
 	{
 		Schema::create('sekolahs', function(Blueprint $table) {
-			$table->increments('id');
+			$table->string('id');
 			$table->string('nama');
 			$table->string('npsn');
 			$table->integer('jenis_sekolah_id')->nullable();
@@ -27,6 +27,7 @@ class CreateSekolahsTable extends Migration
 			$table->string('no_telp');
 			$table->string('email');
 			$table->string('kode_zona')->nullable();
+			$table->string('uuid')->nullable();
 			$table->integer('user_id')->nullable();
 			$table->timestamps();
 			$table->softDeletes();

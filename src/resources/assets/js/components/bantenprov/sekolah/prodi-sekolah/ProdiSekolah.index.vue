@@ -26,12 +26,12 @@
 
       <div class="table-responsive">
         <vuetable ref="vuetable"
-          api-url="/api/prodi-sekolah"
+          :api-url="api_url"
           :fields="fields"
           :sort-order="sortOrder"
           :css="css.table"
           pagination-path=""
-          :per-page="5"
+          :per-page="10"
           :append-params="moreParams"
           @vuetable:pagination-data="onPaginationData"
           @vuetable:loading="onLoading"
@@ -53,8 +53,7 @@
       </div>
 
       <div class="d-flex justify-content-between align-items-center">
-        <vuetable-pagination-info ref="paginationInfo"
-        ></vuetable-pagination-info>
+        <vuetable-pagination-info ref="paginationInfo"></vuetable-pagination-info>
         <vuetable-pagination ref="pagination"
           :css="css.pagination"
           @vuetable-pagination:change-page="onChangePage">
@@ -86,12 +85,19 @@ export default {
     return {
       loading: true,
       title: 'Prodi Sekolah',
+      api_url: '/api/prodi-sekolah',
       fields: [
         {
           name: '__sequence',
           title: '#',
           titleClass: 'center aligned',
           dataClass: 'right aligned'
+        },
+        {
+          name: 'sekolah_id',
+          title: 'NPSN',
+          sortField: 'sekolah_id',
+          titleClass: 'center aligned'
         },
         {
           name: 'sekolah.nama',
@@ -110,12 +116,6 @@ export default {
           name: 'kuota_siswa',
           title: 'Kuota Siswa',
           sortField: 'kuota_siswa',
-          titleClass: 'center aligned'
-        },
-        {
-          name: 'keterangan',
-          title: 'Keterangan',
-          sortField: 'keterangan',
           titleClass: 'center aligned'
         },
         {
@@ -154,6 +154,19 @@ export default {
     }
   },
   methods: {
+    onPaginationData(paginationData) {
+      this.$refs.pagination.setPaginationData(paginationData);
+      this.$refs.paginationInfo.setPaginationData(paginationData);
+    },
+    onChangePage(page) {
+      this.$refs.vuetable.changePage(page);
+    },
+    onLoading: function() {
+      this.loading = true;
+    },
+    onLoaded: function() {
+      this.loading = false;
+    },
     createRow() {
       window.location = '#/admin/prodi-sekolah/create';
     },
@@ -214,19 +227,6 @@ export default {
           );
         }
       });
-    },
-    onPaginationData(paginationData) {
-      this.$refs.pagination.setPaginationData(paginationData);
-      this.$refs.paginationInfo.setPaginationData(paginationData);
-    },
-    onChangePage(page) {
-      this.$refs.vuetable.changePage(page);
-    },
-    onLoading: function() {
-      this.loading = true;
-    },
-    onLoaded: function() {
-      this.loading = false;
     }
   },
   events: {
