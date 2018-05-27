@@ -17,7 +17,7 @@ class CreateProdiSekolahsTable extends Migration
             $table->increments('id');
             $table->string('sekolah_id');
             $table->string('program_keahlian_id')->nullable();
-            $table->string('kuota_siswa');
+            $table->integer('kuota_siswa');
             $table->string('keterangan')->nullable();
             $table->integer('user_id');
             $table->timestamps();
